@@ -1,6 +1,6 @@
 optStrings = {
     selectors: {
-        feedVideoItem: 'video-feed-item-wrapper',
+        feedLoading: 'div.tiktok-loading.feed-loading',
         modalArrowLeft: 'div.video-card-modal > div > img.arrow-right',
         modalClose: '.video-card-modal > div > div.close',
         modalPlayer: 'div > div > main > div.video-card-modal > div > div.video-card-big > div.video-card-container > div > div > video',
@@ -9,6 +9,7 @@ optStrings = {
         videoShareInput: 'div.content-container.border > div.copy-link-container > input',
     },
     classes: {
+        feedVideoItem: 'video-feed-item-wrapper',
         modalCloseDisabled: 'disabled',
     },
     tags: {
@@ -27,7 +28,7 @@ createVidUrlElement = function(outputObj) {
 }
 
 buldVidUrlArray = function(finishCallback) {
-    var feedItem = document.getElementsByClassName(optStrings.selectors.feedVideoItem)[0];
+    var feedItem = document.getElementsByClassName(optStrings.classes.feedVideoItem)[0];
     feedItem.click();
 
     var videoArray = [];
@@ -42,7 +43,7 @@ buldVidUrlArray = function(finishCallback) {
         } else {
             arrowRight.click();
         }
-    }, 500);
+    }, 20);
 };
 
 getCurrentModalVideo = function() {
@@ -71,24 +72,22 @@ scrollWhileNew = function(finishCallback) {
     var state = { count: 0 };
     var intervalID = window.setInterval(x => {
         var oldCount = state.count;
-        state.count = document.getElementsByClassName(optStrings.selectors.feedVideoItem).length;
+        state.count = document.getElementsByClassName(optStrings.classes.feedVideoItem).length;
         if (oldCount !== state.count) {
             window.scrollTo(0, document.body.scrollHeight);
         } else {
+            if (document.querySelector(optStrings.selectors.feedLoading)) {
+                window.scrollTo(0, document.body.scrollHeight);
+                return;
+            }
             window.clearInterval(intervalID);
-            finishCallback();
+            finishCallback(createVidUrlElement);
         }
     }, 1000);
 };
 
 bootstrapIteratingVideos = function() {
-    var intervalID = window.setInterval(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-        if (document.getElementsByClassName(optStrings.selectors.feedVideoItem).length > 0) {
-            window.setTimeout(() => buldVidUrlArray(createVidUrlElement), 100);
-            window.clearInterval(intervalID);
-        }
-    }, 500);
+    scrollWhileNew(buldVidUrlArray);
     return 'bootstrapIteratingVideos';
 };
 
@@ -102,7 +101,7 @@ init = () => {
     const newProto = navigator.__proto__;
     delete newProto.webdriver;
     navigator.__proto__ = newProto;
+    return 'script initialized';
 };
 
 init();
-'script initialized'
