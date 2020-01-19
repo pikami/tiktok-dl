@@ -8,7 +8,7 @@ import (
 
 // Config - Runtime configuration
 var Config struct {
-	UserName   string
+	URL        string
 	OutputPath string
 	Debug      bool
 }
@@ -21,11 +21,11 @@ func GetConfig() {
 
 	args := flag.Args()
 	if len(args) < 1 {
-		fmt.Println("Usage: tiktok-dl [OPTIONS] TIKTOK_USERNAME")
+		fmt.Println("Usage: tiktok-dl [OPTIONS] TIKTOK_USERNAME|TIKTOK_URL")
 		os.Exit(2)
 	}
 
-	Config.UserName = flag.Args()[len(args)-1]
+	Config.URL = flag.Args()[len(args)-1]
 	Config.OutputPath = *outputPath
 	Config.Debug = *debug
 }

@@ -18,6 +18,13 @@ func ParseUploads(str string) []Upload {
 	return uploads
 }
 
+// ParseUpload - Parses json uploads array
+func ParseUpload(str string) Upload {
+	var upload Upload
+	json.Unmarshal([]byte(str), &upload)
+	return upload
+}
+
 // GetUploadID - Returns upload id
 func (u Upload) GetUploadID() string {
 	parts := strings.Split(u.ShareLink, "/")

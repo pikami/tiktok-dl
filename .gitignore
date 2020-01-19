@@ -1,3 +1,5 @@
+.vscode
+__debug_bin
 downloads
 *.exe
 tiktok-dl

@@ -12,8 +12,8 @@ import (
 	utils "../utils"
 )
 
-// GetUserUploads - Get all uploads by user
-func GetUserUploads(username string) []models.Upload {
+// GetVideoDetails - returns details of video
+func GetVideoDetails(videoURL string) models.Upload {
 	dir, err := ioutil.TempDir("", "chromedp-example")
 	if err != nil {
 		panic(err)
@@ -41,10 +41,10 @@ func GetUserUploads(username string) []models.Upload {
 	var jsOutput string
 	err = chromedp.Run(ctx,
 		// Navigate to user's page
-		chromedp.Navigate(`https://www.tiktok.com/@`+username),
+		chromedp.Navigate(videoURL),
 		// Execute url grabber script
 		chromedp.EvaluateAsDevTools(utils.ReadFileAsString("scraper.js"), &jsOutput),
-		chromedp.EvaluateAsDevTools("bootstrapIteratingVideos()", &jsOutput),
+		chromedp.EvaluateAsDevTools("bootstrapGetCurrentVideo()", &jsOutput),
 		// Wait until custom js finishes
 		chromedp.WaitVisible(`video_urls`),
 		// Grab url links from our element
@@ -54,5 +54,5 @@ func GetUserUploads(username string) []models.Upload {
 		log.Fatal(err)
 	}
 
-	return models.ParseUploads(jsOutput)
+	return models.ParseUpload(jsOutput)
 }
