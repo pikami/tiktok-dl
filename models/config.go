@@ -10,11 +10,13 @@ import (
 var Config struct {
 	UserName   string
 	OutputPath string
+	Debug      bool
 }
 
 // GetConfig - Returns Config object
 func GetConfig() {
 	outputPath := flag.String("output", "./downloads", "Output path")
+	debug := flag.Bool("debug", false, "enables debug mode")
 	flag.Parse()
 
 	args := flag.Args()
@@ -25,4 +27,5 @@ func GetConfig() {
 
 	Config.UserName = flag.Args()[len(args)-1]
 	Config.OutputPath = *outputPath
+	Config.Debug = *debug
 }

@@ -23,7 +23,7 @@ func GetUserUploads(username string) []models.Upload {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.DisableGPU,
 		chromedp.UserDataDir(dir),
-		chromedp.Flag("headless", false),
+		chromedp.Flag("headless", models.Config.UserName),
 	)
 
 	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)

@@ -25,6 +25,7 @@ func main() {
 			continue
 		}
 
+		fmt.Println("Downloading upload item '" + uploadID + "' to " + downloadPath)
 		utils.DownloadFile(downloadPath, upload.URL)
 	}
 }
