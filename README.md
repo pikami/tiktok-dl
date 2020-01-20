@@ -16,6 +16,7 @@ Clone this repository and run `go build` to build the executable.
 ## Available options
 * `-debug` - enables debug mode
 * `-output some_directory` - Output path (default "./downloads")
+* `-metadata` - Write video metadata to a .json file
 
 ## Acknowledgments
 This software uses the chromedp for web scraping, it can be found here: https://github.com/chromedp/chromedp
