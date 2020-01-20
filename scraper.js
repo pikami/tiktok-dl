@@ -5,8 +5,12 @@ optStrings = {
         modalClose: '.video-card-modal > div > div.close',
         modalPlayer: 'div > div > main > div.video-card-modal > div > div.video-card-big > div.video-card-container > div > div > video',
         modalShareInput: '.copy-link-container > input',
+        modalCaption: 'div.video-card-big > div.content-container > div.video-meta-info > h1',
+        modalSoundLink: 'div.content-container > div.video-meta-info > h2.music-info > a',
         videoPlayer: 'div.video-card-container > div > div > video',
         videoShareInput: 'div.content-container.border > div.copy-link-container > input',
+        videoCaption: 'div.content-container.border > div.video-meta-info > h1',
+        videoSoundLink: 'div.content-container.border > div.video-meta-info > h2.music-info > a',
     },
     classes: {
         feedVideoItem: 'video-feed-item-wrapper',
@@ -50,10 +54,19 @@ getCurrentModalVideo = function() {
     var modalPlayer = document.querySelector(optStrings.selectors.modalPlayer);
     var vidUrl = modalPlayer.getAttribute(optStrings.attributes.src);
     var shareLink = document.querySelector(optStrings.selectors.modalShareInput).value;
+    var caption = document.querySelector(optStrings.selectors.modalCaption).textContent;
+    var soundLink = document.querySelector(optStrings.selectors.modalSoundLink);
+    var soundHref = soundLink.getAttribute("href");
+    var soundText = soundLink.text;
 
     return {
         url: vidUrl,
-        shareLink: shareLink
+        shareLink: shareLink,
+        caption: caption,
+        sound: {
+            title: soundText,
+            link: soundHref,
+        },
     };
 }
 
@@ -61,10 +74,19 @@ getCurrentVideo = function() {
     var player = document.querySelector(optStrings.selectors.videoPlayer);
     var vidUrl = player.getAttribute(optStrings.attributes.src);
     var shareLink = document.querySelector(optStrings.selectors.videoShareInput).value;
+    var caption = document.querySelector(optStrings.selectors.videoCaption).textContent;
+    var soundLink = document.querySelector(optStrings.selectors.videoSoundLink);
+    var soundHref = soundLink.getAttribute("href");
+    var soundText = soundLink.text;
 
     return {
         url: vidUrl,
-        shareLink: shareLink
+        shareLink: shareLink,
+        caption: caption,
+        sound: {
+            title: soundText,
+            link: soundHref,
+        },
     };
 }
 

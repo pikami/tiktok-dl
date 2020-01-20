@@ -11,12 +11,14 @@ var Config struct {
 	URL        string
 	OutputPath string
 	Debug      bool
+	MetaData   bool
 }
 
 // GetConfig - Returns Config object
 func GetConfig() {
 	outputPath := flag.String("output", "./downloads", "Output path")
-	debug := flag.Bool("debug", false, "enables debug mode")
+	debug := flag.Bool("debug", false, "Enables debug mode")
+	metadata := flag.Bool("metadata", false, "Write video metadata to a .json file")
 	flag.Parse()
 
 	args := flag.Args()
@@ -28,4 +30,5 @@ func GetConfig() {
 	Config.URL = flag.Args()[len(args)-1]
 	Config.OutputPath = *outputPath
 	Config.Debug = *debug
+	Config.MetaData = *metadata
 }

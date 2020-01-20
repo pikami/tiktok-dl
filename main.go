@@ -42,6 +42,11 @@ func downloadVideo(upload models.Upload, downloadDir string) {
 
 	fmt.Println("Downloading upload item '" + uploadID + "' to " + downloadPath)
 	utils.DownloadFile(downloadPath, upload.URL)
+
+	if models.Config.MetaData {
+		metadataPath := fmt.Sprintf("%s/%s.json", downloadDir, uploadID)
+		upload.WriteToFile(metadataPath)
+	}
 }
 
 func downloadUser() {
