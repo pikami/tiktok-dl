@@ -1,36 +1,67 @@
 package models
 
-import "testing"
+import (
+	testUtil "../unitTestUtil"
+	utils "../utils"
+	"os"
+	"testing"
+)
 
-// TestParseUploads - Test parsing
 func TestParseUploads(t *testing.T) {
-	jsonStr := "[{\"shareLink\":\"some_share_link\", \"url\": \"some_url\"}]"
+	tu := testUtil.TestUtil{T: t}
+	jsonStr := "[{\"url\":\"some_url\",\"shareLink\":\"some_share_link\",\"caption\":\"some_caption\",\"sound\":{\"title\":\"some_title\",\"link\":\"some_link\"}}]"
 	actual := ParseUploads(jsonStr)
 
-	expectedLen := 1
-	if len(actual) != expectedLen {
-		t.Errorf("Array len incorrect: Expected %d, but got %d", expectedLen, len(actual))
-	}
+	tu.AssertInt(len(actual), 1, "Array len")
 
-	expectedShareLink := "some_share_link"
-	if actual[0].ShareLink != expectedShareLink {
-		t.Errorf("ShareLink is incorrect: Expected %s, but got %s", expectedShareLink, actual[0].ShareLink)
-	}
+	tu.AssertString(actual[0].URL, "some_url", "URL")
+	tu.AssertString(actual[0].Caption, "some_caption", "Caption")
+	tu.AssertString(actual[0].ShareLink, "some_share_link", "ShareLink")
 
-	expectedURL := "some_url"
-	if actual[0].URL != expectedURL {
-		t.Errorf("URL is incorrect: Expected %s, but got %s", expectedURL, actual[0].URL)
-	}
+	tu.AssertString(actual[0].Sound.Link, "some_link", "Sound.Link")
+	tu.AssertString(actual[0].Sound.Title, "some_title", "Sound.Title")
+}
+
+func TestParseUpload(t *testing.T) {
+	tu := testUtil.TestUtil{T: t}
+	jsonStr := "{\"url\":\"some_url\",\"shareLink\":\"some_share_link\",\"caption\":\"some_caption\",\"sound\":{\"title\":\"some_title\",\"link\":\"some_link\"}}"
+	actual := ParseUpload(jsonStr)
+
+	tu.AssertString(actual.URL, "some_url", "URL")
+	tu.AssertString(actual.Caption, "some_caption", "Caption")
+	tu.AssertString(actual.ShareLink, "some_share_link", "ShareLink")
+
+	tu.AssertString(actual.Sound.Link, "some_link", "Sound.Link")
+	tu.AssertString(actual.Sound.Title, "some_title", "Sound.Title")
 }
 
 func TestGetUploadID(t *testing.T) {
+	tu := testUtil.TestUtil{T: t}
 	var upload Upload
 	upload.ShareLink = "http://pikami.org/some_thing/some_upload_id"
-	expected := "some_upload_id"
-
 	actual := upload.GetUploadID()
 
-	if actual != expected {
-		t.Errorf("UploadId is incorrect: Expected %s, but got %s", expected, actual)
+	tu.AssertString(actual, "some_upload_id", "Upload ID")
+}
+
+func TestWriteToFile(t *testing.T) {
+	tu := testUtil.TestUtil{T: t}
+	expected := "{\"url\":\"some_url\",\"shareLink\":\"some_share_link\",\"caption\":\"some_caption\",\"sound\":{\"title\":\"some_title\",\"link\":\"some_link\"}}"
+	filePath := "test_file.txt"
+	upload := Upload{
+		URL:       "some_url",
+		Caption:   "some_caption",
+		ShareLink: "some_share_link",
+		Sound: Sound{
+			Link:  "some_link",
+			Title: "some_title",
+		},
 	}
+
+	upload.WriteToFile(filePath)
+
+	actual := utils.ReadFileToString(filePath)
+	tu.AssertString(actual, expected, "File content")
+
+	os.Remove(filePath)
 }
