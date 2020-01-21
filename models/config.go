@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"regexp"
+	"strings"
 )
 
 // Config - Runtime configuration
@@ -31,4 +33,18 @@ func GetConfig() {
 	Config.OutputPath = *outputPath
 	Config.Debug = *debug
 	Config.MetaData = *metadata
+}
+
+// GetUsername - Get's username from passed URL param
+func GetUsername() string {
+	if match := strings.Contains(Config.URL, "/"); !match { // Not url
+		return strings.Replace(Config.URL, "@", "", -1)
+	}
+
+	if match, _ := regexp.MatchString(".+tiktok\\.com/@.+", Config.URL); match { // URL
+		stripedSuffix := strings.Split(Config.URL, "@")[1]
+		return strings.Split(stripedSuffix, "/")[0]
+	}
+
+	panic("Could not recognise URL format")
 }
