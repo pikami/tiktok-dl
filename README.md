@@ -21,5 +21,5 @@ Clone this repository and run `go build` to build the executable.
 * `-batch-file` - File containing URLs/Usernames to download, one value per line. Lines starting with '#', are considered as comments and ignored.
 
 ## Acknowledgments
-This software uses the **chromedp** for web scraping, it can be found here: https://github.com/chromedp/chromedp\
+This software uses the **chromedp** for web scraping, it can be found here: https://github.com/chromedp/chromedp \
 For releases the JS code is minified by using **terser** toolkit, it can be found here: https://github.com/terser/terser
