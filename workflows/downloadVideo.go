@@ -16,7 +16,7 @@ func CanUseDownloadSingleVideo(url string) bool {
 
 // DownloadSingleVideo - Downloads single video
 func DownloadSingleVideo(url string) {
-	username := models.GetUsername()
+	username := models.GetUsernameFromString(url)
 	upload := client.GetVideoDetails(url)
 	downloadDir := fmt.Sprintf("%s/%s", models.Config.OutputPath, username)
 

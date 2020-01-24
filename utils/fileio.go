@@ -1,9 +1,12 @@
 package utils
 
 import (
+	"bufio"
 	"io/ioutil"
 	"os"
 )
+
+type delegateString func(string)
 
 // CheckIfExists - Checks if file or directory exists
 func CheckIfExists(path string) bool {
@@ -29,4 +32,22 @@ func ReadFileToString(path string) string {
 	}
 
 	return string(content)
+}
+
+// ReadFileLineByLine - Reads file line by line and calls delegate
+func ReadFileLineByLine(path string, delegate delegateString) {
+	file, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		delegate(scanner.Text())
+	}
+
+	if err := scanner.Err(); err != nil {
+		panic(err)
+	}
 }
