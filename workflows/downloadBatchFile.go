@@ -1,7 +1,6 @@
 package workflows
 
 import (
-	models "../models"
 	utils "../utils"
 	"fmt"
 )
@@ -25,17 +24,5 @@ func downloadItem(batchItem string) {
 		return
 	}
 
-	// Single video
-	if CanUseDownloadSingleVideo(batchItem) {
-		DownloadSingleVideo(batchItem)
-		return
-	}
-
-	// Tiktok user
-	if CanUseDownloadUser(batchItem) {
-		DownloadUser(models.GetUsernameFromString(batchItem))
-		return
-	}
-
-	panic(fmt.Sprintf("Could not recognise URL format of string %s", batchItem))
+	StartWorkflowByParameter(batchItem)
 }

@@ -7,10 +7,12 @@ optStrings = {
         modalShareInput: '.copy-link-container > input',
         modalCaption: 'div.video-card-big > div.content-container > div.video-meta-info > h1',
         modalSoundLink: 'div.content-container > div.video-meta-info > h2.music-info > a',
+        modalUploader: '.user-username',
         videoPlayer: 'div.video-card-container > div > div > video',
         videoShareInput: 'div.content-container.border > div.copy-link-container > input',
         videoCaption: 'div.content-container.border > div.video-meta-info > h1',
         videoSoundLink: 'div.content-container.border > div.video-meta-info > h2.music-info > a',
+        videoUploader: '.user-username',
     },
     classes: {
         feedVideoItem: 'video-feed-item-wrapper',
@@ -56,6 +58,7 @@ getCurrentModalVideo = function() {
     var shareLink = document.querySelector(optStrings.selectors.modalShareInput).value;
     var caption = document.querySelector(optStrings.selectors.modalCaption).textContent;
     var soundLink = document.querySelector(optStrings.selectors.modalSoundLink);
+    var uploader = document.querySelector(optStrings.selectors.modalUploader).textContent;
     var soundHref = soundLink.getAttribute("href");
     var soundText = soundLink.text;
 
@@ -63,6 +66,7 @@ getCurrentModalVideo = function() {
         url: vidUrl,
         shareLink: shareLink,
         caption: caption,
+        uploader: uploader,
         sound: {
             title: soundText,
             link: soundHref,
@@ -76,6 +80,7 @@ getCurrentVideo = function() {
     var shareLink = document.querySelector(optStrings.selectors.videoShareInput).value;
     var caption = document.querySelector(optStrings.selectors.videoCaption).textContent;
     var soundLink = document.querySelector(optStrings.selectors.videoSoundLink);
+    var uploader = document.querySelector(optStrings.selectors.videoUploader).textContent;
     var soundHref = soundLink.getAttribute("href");
     var soundText = soundLink.text;
 
@@ -83,6 +88,7 @@ getCurrentVideo = function() {
         url: vidUrl,
         shareLink: shareLink,
         caption: caption,
+        uploader: uploader,
         sound: {
             title: soundText,
             link: soundHref,

@@ -9,7 +9,7 @@ import (
 
 func TestParseUploads(t *testing.T) {
 	tu := testUtil.TestUtil{T: t}
-	jsonStr := "[{\"url\":\"some_url\",\"shareLink\":\"some_share_link\",\"caption\":\"some_caption\",\"sound\":{\"title\":\"some_title\",\"link\":\"some_link\"}}]"
+	jsonStr := "[{\"url\":\"some_url\",\"shareLink\":\"some_share_link\",\"caption\":\"some_caption\", \"uploader\": \"some.uploader\",\"sound\":{\"title\":\"some_title\",\"link\":\"some_link\"}}]"
 	actual := ParseUploads(jsonStr)
 
 	tu.AssertInt(len(actual), 1, "Array len")
@@ -17,6 +17,7 @@ func TestParseUploads(t *testing.T) {
 	tu.AssertString(actual[0].URL, "some_url", "URL")
 	tu.AssertString(actual[0].Caption, "some_caption", "Caption")
 	tu.AssertString(actual[0].ShareLink, "some_share_link", "ShareLink")
+	tu.AssertString(actual[0].Uploader, "some.uploader", "Uploader")
 
 	tu.AssertString(actual[0].Sound.Link, "some_link", "Sound.Link")
 	tu.AssertString(actual[0].Sound.Title, "some_title", "Sound.Title")

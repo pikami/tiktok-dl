@@ -12,6 +12,7 @@ type Upload struct {
 	URL       string `json:"url"`
 	ShareLink string `json:"shareLink"`
 	Caption   string `json:"caption"`
+	Uploader  string `json:"uploader"`
 	Sound     Sound  `json:"sound"`
 }
 

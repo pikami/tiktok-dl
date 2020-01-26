@@ -16,17 +16,5 @@ func main() {
 		return
 	}
 
-	// Single video
-	if workflows.CanUseDownloadSingleVideo(url) {
-		workflows.DownloadSingleVideo(url)
-		return
-	}
-
-	// Tiktok user
-	if workflows.CanUseDownloadUser(url) {
-		workflows.DownloadUser(models.GetUsername())
-		return
-	}
-
-	panic("Could not recognise URL format")
+	workflows.StartWorkflowByParameter(url)
 }
