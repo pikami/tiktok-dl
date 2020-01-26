@@ -47,12 +47,13 @@ func TestGetUploadID(t *testing.T) {
 
 func TestWriteToFile(t *testing.T) {
 	tu := testUtil.TestUtil{T: t}
-	expected := "{\"url\":\"some_url\",\"shareLink\":\"some_share_link\",\"caption\":\"some_caption\",\"sound\":{\"title\":\"some_title\",\"link\":\"some_link\"}}"
+	expected := "{\"url\":\"some_url\",\"shareLink\":\"some_share_link\",\"caption\":\"some_caption\",\"uploader\":\"some.uploader\",\"sound\":{\"title\":\"some_title\",\"link\":\"some_link\"}}"
 	filePath := "test_file.txt"
 	upload := Upload{
 		URL:       "some_url",
 		Caption:   "some_caption",
 		ShareLink: "some_share_link",
+		Uploader:  "some.uploader",
 		Sound: Sound{
 			Link:  "some_link",
 			Title: "some_title",
