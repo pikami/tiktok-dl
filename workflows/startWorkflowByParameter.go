@@ -22,7 +22,7 @@ func StartWorkflowByParameter(url string) {
 
 	// Tiktok user
 	if CanUseDownloadUser(url) {
-		DownloadUser(models.GetUsername())
+		DownloadUser(models.GetUsernameFromString(url))
 		return
 	}
 
