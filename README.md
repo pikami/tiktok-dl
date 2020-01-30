@@ -20,6 +20,7 @@ Clone this repository and run `go build` to build the executable.
 * `-output some_directory` - Output path (default "./downloads")
 * `-metadata` - Write video metadata to a .json file
 * `-batch-file` - File containing URLs/Usernames to download, one value per line. Lines starting with '#', are considered as comments and ignored.
+* `-deadline` - Sets the timout for scraper logic in seconds (used as a workaround for context deadline exceeded error) (default 1500)
 
 ## Acknowledgments
 This software uses the **chromedp** for web scraping, it can be found here: https://github.com/chromedp/chromedp \

@@ -15,6 +15,7 @@ var Config struct {
 	BatchFilePath string
 	Debug         bool
 	MetaData      bool
+	Deadline      int
 }
 
 // GetConfig - Returns Config object
@@ -23,6 +24,7 @@ func GetConfig() {
 	batchFilePath := flag.String("batch-file", "", "File containing URLs/Usernames to download, one value per line. Lines starting with '#', are considered as comments and ignored.")
 	debug := flag.Bool("debug", false, "Enables debug mode")
 	metadata := flag.Bool("metadata", false, "Write video metadata to a .json file")
+	deadline := flag.Int("deadline", 1500, "Sets the timout for scraper logic in seconds (used as a workaround for 'context deadline exceeded' error)")
 	flag.Parse()
 
 	args := flag.Args()
@@ -41,6 +43,7 @@ func GetConfig() {
 	Config.BatchFilePath = *batchFilePath
 	Config.Debug = *debug
 	Config.MetaData = *metadata
+	Config.Deadline = *deadline
 }
 
 // GetUsername - Get's username from passed URL param
