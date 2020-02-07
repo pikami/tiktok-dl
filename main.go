@@ -1,14 +1,14 @@
 package main
 
 import (
-	models "./models"
+	config "./models/config"
 	workflows "./workflows"
 )
 
 func main() {
-	models.GetConfig()
-	url := models.Config.URL
-	batchFilePath := models.Config.BatchFilePath
+	config.GetConfig()
+	url := config.Config.URL
+	batchFilePath := config.Config.BatchFilePath
 
 	// Batch file
 	if workflows.CanUseDownloadBatchFile(batchFilePath) {

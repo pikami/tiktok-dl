@@ -1,6 +1,7 @@
-package models
+package utils
 
 import (
+	config "../models/config"
 	testUtil "../unitTestUtil"
 	"testing"
 )
@@ -8,7 +9,7 @@ import (
 func TestGetUsername(t *testing.T) {
 	testCaseDelegate := func(t *testing.T, url string, username string) {
 		tu := testUtil.TestUtil{T: t}
-		Config.URL = url
+		config.Config.URL = url
 		actual := GetUsername()
 		tu.AssertString(actual, username, "Username")
 	}

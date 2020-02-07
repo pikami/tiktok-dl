@@ -27,10 +27,16 @@ optStrings = {
     },
 };
 
+currentState = {
+    preloadCount: 0,
+    finished: false,
+};
+
 createVidUrlElement = function(outputObj) {
     var urlSetElement = document.createElement(optStrings.tags.resultTag);
     urlSetElement.innerText = JSON.stringify(outputObj);
     document.getElementsByTagName(optStrings.tags.resultParentTag)[0].appendChild(urlSetElement);
+    currentState.finished = true;
 }
 
 buldVidUrlArray = function(finishCallback) {
@@ -102,6 +108,7 @@ scrollWhileNew = function(finishCallback) {
         var oldCount = state.count;
         state.count = document.getElementsByClassName(optStrings.classes.feedVideoItem).length;
         if (oldCount !== state.count) {
+            currentState.preloadCount = state.count;
             window.scrollTo(0, document.body.scrollHeight);
         } else {
             if (document.querySelector(optStrings.selectors.feedLoading)) {

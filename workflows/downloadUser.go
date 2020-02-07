@@ -2,7 +2,7 @@ package workflows
 
 import (
 	client "../client"
-	models "../models"
+	config "../models/config"
 	utils "../utils"
 	"fmt"
 	"strings"
@@ -16,12 +16,15 @@ func CanUseDownloadUser(url string) bool {
 
 // DownloadUser - Download all user's videos
 func DownloadUser(username string) {
-	downloadDir := fmt.Sprintf("%s/%s", models.Config.OutputPath, username)
 	uploads := client.GetUserUploads(username)
+	uploadCount := len(uploads)
+	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, username)
 
 	utils.InitOutputDirectory(downloadDir)
 
-	for _, upload := range uploads {
+	for index, upload := range uploads {
 		downloadVideo(upload, downloadDir)
+		utils.Logf("\r[%d/%d] Downloaded", index+1, uploadCount)
 	}
+	utils.Log()
 }

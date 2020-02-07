@@ -1,8 +1,8 @@
 package workflows
 
 import (
-	models "../models"
-	"fmt"
+	res "../resources"
+	utils "../utils"
 )
 
 // StartWorkflowByParameter - Start needed workflow by given parameter
@@ -22,9 +22,9 @@ func StartWorkflowByParameter(url string) {
 
 	// Tiktok user
 	if CanUseDownloadUser(url) {
-		DownloadUser(models.GetUsernameFromString(url))
+		DownloadUser(utils.GetUsernameFromString(url))
 		return
 	}
 
-	panic(fmt.Sprintf("Could not recognise URL format of string %s", url))
+	utils.LogFatal(res.ErrorCouldNotRecogniseURL, url)
 }

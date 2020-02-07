@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "scripts": {
         "install-dependencies": "go get -v -t -d ./...",
-        "test": "go test -v ./models",
+        "test": "go test -v ./models && go test -v ./utils",
         "clean": "rm -rf out",
         "build:scraper": "node node_modules/terser/bin/terser -c -m -- scraper.js > out/scraper.js",
         "build:app": "go build -o out/ -v .",

@@ -1,8 +1,9 @@
 package models
 
 import (
+	res "../resources"
+	utils "../utils"
 	"encoding/json"
-	"fmt"
 	"os"
 	"strings"
 )
@@ -46,21 +47,16 @@ func (u Upload) GetUploadID() string {
 func (u Upload) WriteToFile(outputPath string) {
 	bytes, err := json.Marshal(u)
 	if err != nil {
-		fmt.Printf("Could not serialize json for video: %s", u.GetUploadID())
-		fmt.Println()
+		utils.Logf(res.ErrorCouldNotSerializeJSON, u.GetUploadID())
 		panic(err)
 	}
 
 	// Create the file
 	out, err := os.Create(outputPath)
-	if err != nil {
-		panic(err)
-	}
+	utils.CheckErr(err)
 	defer out.Close()
 
 	// Write to file
 	_, err = out.Write(bytes)
-	if err != nil {
-		panic(err)
-	}
+	utils.CheckErr(err)
 }

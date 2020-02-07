@@ -2,7 +2,7 @@ package workflows
 
 import (
 	client "../client"
-	models "../models"
+	config "../models/config"
 	utils "../utils"
 	"fmt"
 	"regexp"
@@ -17,12 +17,15 @@ func CanUseDownloadMusic(url string) bool {
 // DownloadMusic - Download all videos by given music
 func DownloadMusic(url string) {
 	uploads := client.GetMusicUploads(url)
+	uploadCount := len(uploads)
 
-	for _, upload := range uploads {
-		username := models.GetUsernameFromString(upload.Uploader)
-		downloadDir := fmt.Sprintf("%s/%s", models.Config.OutputPath, username)
+	for index, upload := range uploads {
+		username := utils.GetUsernameFromString(upload.Uploader)
+		downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, username)
 
 		utils.InitOutputDirectory(downloadDir)
 		downloadVideo(upload, downloadDir)
+		utils.Logf("\r[%d/%d] Downloaded", index+1, uploadCount)
 	}
+	utils.Log()
 }

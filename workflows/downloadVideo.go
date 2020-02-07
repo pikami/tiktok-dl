@@ -3,6 +3,7 @@ package workflows
 import (
 	client "../client"
 	models "../models"
+	config "../models/config"
 	utils "../utils"
 	"fmt"
 	"regexp"
@@ -16,12 +17,13 @@ func CanUseDownloadSingleVideo(url string) bool {
 
 // DownloadSingleVideo - Downloads single video
 func DownloadSingleVideo(url string) {
-	username := models.GetUsernameFromString(url)
+	username := utils.GetUsernameFromString(url)
 	upload := client.GetVideoDetails(url)
-	downloadDir := fmt.Sprintf("%s/%s", models.Config.OutputPath, username)
+	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, username)
 
 	utils.InitOutputDirectory(downloadDir)
 	downloadVideo(upload, downloadDir)
+	utils.Log("[1/1] Downloaded\n")
 }
 
 // DownloadVideo - Downloads one video
@@ -30,14 +32,12 @@ func downloadVideo(upload models.Upload, downloadDir string) {
 	downloadPath := fmt.Sprintf("%s/%s.mp4", downloadDir, uploadID)
 
 	if utils.CheckIfExists(downloadPath) {
-		fmt.Println("Upload '" + uploadID + "' already downloaded, skipping")
 		return
 	}
 
-	fmt.Println("Downloading upload item '" + uploadID + "' to " + downloadPath)
 	utils.DownloadFile(downloadPath, upload.URL)
 
-	if models.Config.MetaData {
+	if config.Config.MetaData {
 		metadataPath := fmt.Sprintf("%s/%s.json", downloadDir, uploadID)
 		upload.WriteToFile(metadataPath)
 	}

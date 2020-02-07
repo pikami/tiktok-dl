@@ -8,22 +8,20 @@ import (
 	"os"
 	"time"
 
-	models "../models"
+	config "../models/config"
 	utils "../utils"
 )
 
 // GetMusicUploads - Get all uploads by given music
 func executeClientAction(url string, jsAction string) string {
 	dir, err := ioutil.TempDir("", "chromedp-example")
-	if err != nil {
-		panic(err)
-	}
+	utils.CheckErr(err)
 	defer os.RemoveAll(dir)
 
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.DisableGPU,
 		chromedp.UserDataDir(dir),
-		chromedp.Flag("headless", !models.Config.Debug),
+		chromedp.Flag("headless", !config.Config.Debug),
 	)
 
 	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
@@ -35,11 +33,18 @@ func executeClientAction(url string, jsAction string) string {
 	)
 	defer cancel()
 
-	ctx, cancel = context.WithTimeout(ctx, time.Duration(models.Config.Deadline)*time.Second)
+	ctx, cancel = context.WithTimeout(ctx, time.Duration(config.Config.Deadline)*time.Second)
 	defer cancel()
 
 	var jsOutput string
-	err = chromedp.Run(ctx,
+	jsOutput = runScrapeWithInfo(ctx, jsAction, url)
+
+	return jsOutput
+}
+
+func runScrapeQuiet(ctx context.Context, jsAction string, url string) string {
+	var jsOutput string
+	err := chromedp.Run(ctx,
 		// Navigate to user's page
 		chromedp.Navigate(url),
 		// Execute url grabber script
@@ -50,9 +55,47 @@ func executeClientAction(url string, jsAction string) string {
 		// Grab url links from our element
 		chromedp.InnerHTML(`video_urls`, &jsOutput),
 	)
-	if err != nil {
-		log.Fatal(err)
+	utils.CheckErr(err)
+	return jsOutput
+}
+
+func runScrapeWithInfo(ctx context.Context, jsAction string, url string) string {
+	var jsOutput string
+	err := chromedp.Run(ctx,
+		// Navigate to user's page
+		chromedp.Navigate(url),
+		// Execute url grabber script
+		chromedp.EvaluateAsDevTools(utils.ReadFileAsString("scraper.js"), &jsOutput),
+		chromedp.EvaluateAsDevTools(jsAction, &jsOutput),
+	)
+	utils.CheckErr(err)
+
+	for {
+		err = chromedp.Run(ctx, chromedp.EvaluateAsDevTools("currentState.preloadCount.toString()", &jsOutput))
+		utils.CheckErr(err)
+		if jsOutput != "0" {
+			utils.Logf("\rPreloading... Currently loaded %s items.", jsOutput)
+		} else {
+			utils.Logf("\rPreloading...")
+		}
+
+		err = chromedp.Run(ctx, chromedp.EvaluateAsDevTools("currentState.finished.toString()", &jsOutput))
+		utils.CheckErr(err)
+		if jsOutput == "true" {
+			break
+		}
+
+		time.Sleep(50 * time.Millisecond)
 	}
+
+	utils.Log("\nRetrieving items...")
+	err = chromedp.Run(ctx,
+		// Wait until custom js finishes
+		chromedp.WaitVisible(`video_urls`),
+		// Grab url links from our element
+		chromedp.InnerHTML(`video_urls`, &jsOutput),
+	)
+	utils.CheckErr(err)
 
 	return jsOutput
 }
