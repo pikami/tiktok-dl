@@ -6,14 +6,14 @@ import (
     "fmt"
 )
 
-// GetMusicUploads - Get all uploads by given music
-func GetMusicUploads(url string) []models.Upload {
+// GetUserUploads - Get all uploads marked with given hashtag
+func GetHashtagUploads(hashtagURL string) []models.Upload {
     jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
-    actionOutput := executeClientAction(url, jsMethod)
+    actionOutput := executeClientAction(hashtagURL, jsMethod)
     return models.ParseUploads(actionOutput)
 }
 
-func GetMusicUploadsJson(url string) string {
+func GetHashtagUploadsJson(hashtagURL string) string {
     jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
-    return executeClientAction(url, jsMethod)
+    return executeClientAction(hashtagURL, jsMethod)
 }

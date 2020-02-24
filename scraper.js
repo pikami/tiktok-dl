@@ -1,7 +1,7 @@
 optStrings = {
     selectors: {
         feedLoading: 'div.tiktok-loading.feed-loading',
-        modalArrowLeft: 'div.video-card-modal > div > img.arrow-right',
+        modalArrowRight: 'div.video-card-modal > div > img.arrow-right',
         modalClose: '.video-card-modal > div > div.close',
         modalPlayer: 'div > div > main > div.video-card-modal > div > div.video-card-big > div.video-card-container > div > div > video',
         modalShareInput: '.copy-link-container > input',
@@ -30,6 +30,7 @@ optStrings = {
 currentState = {
     preloadCount: 0,
     finished: false,
+    limit: 100
 };
 
 createVidUrlElement = function(outputObj) {
@@ -37,7 +38,7 @@ createVidUrlElement = function(outputObj) {
     urlSetElement.innerText = JSON.stringify(outputObj);
     document.getElementsByTagName(optStrings.tags.resultParentTag)[0].appendChild(urlSetElement);
     currentState.finished = true;
-}
+};
 
 buldVidUrlArray = function(finishCallback) {
     var feedItem = document.getElementsByClassName(optStrings.classes.feedVideoItem)[0];
@@ -46,8 +47,14 @@ buldVidUrlArray = function(finishCallback) {
     var videoArray = [];
     var intervalID = window.setInterval(x => {
         videoArray.push(getCurrentModalVideo());
-
-        var arrowRight = document.querySelectorAll(optStrings.selectors.modalArrowLeft)[0];
+        if(currentState.limit > 0) {
+            if (videoArray.length >= currentState.limit) {
+                window.clearInterval(intervalID);
+                document.querySelector(optStrings.selectors.modalClose).click();
+                finishCallback(videoArray);
+            }
+        }
+        var arrowRight = document.querySelectorAll(optStrings.selectors.modalArrowRight)[0];
         if (arrowRight.classList.contains(optStrings.classes.modalCloseDisabled)) {
             window.clearInterval(intervalID);
             document.querySelector(optStrings.selectors.modalClose).click();
@@ -78,7 +85,7 @@ getCurrentModalVideo = function() {
             link: soundHref,
         },
     };
-}
+};
 
 getCurrentVideo = function() {
     var player = document.querySelector(optStrings.selectors.videoPlayer);
@@ -100,13 +107,19 @@ getCurrentVideo = function() {
             link: soundHref,
         },
     };
-}
+};
 
 scrollWhileNew = function(finishCallback) {
     var state = { count: 0 };
     var intervalID = window.setInterval(x => {
         var oldCount = state.count;
         state.count = document.getElementsByClassName(optStrings.classes.feedVideoItem).length;
+        if(currentState.limit > 0) {
+            if (currentState.preloadCount >= currentState.limit || state.count >= currentState.limit) {
+                finishCallback(createVidUrlElement);
+                window.clearInterval(intervalID);
+            }
+        }
         if (oldCount !== state.count) {
             currentState.preloadCount = state.count;
             window.scrollTo(0, document.body.scrollHeight);
@@ -121,7 +134,8 @@ scrollWhileNew = function(finishCallback) {
     }, 1000);
 };
 
-bootstrapIteratingVideos = function() {
+bootstrapIteratingVideos = function(limit) {
+    currentState.limit = limit;
     scrollWhileNew(buldVidUrlArray);
     return 'bootstrapIteratingVideos';
 };
@@ -130,7 +144,7 @@ bootstrapGetCurrentVideo = function() {
     var video = getCurrentVideo();
     createVidUrlElement(video);
     return 'bootstrapGetCurrentVideo';
-}
+};
 
 init = () => {
     const newProto = navigator.__proto__;

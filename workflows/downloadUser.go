@@ -28,3 +28,8 @@ func DownloadUser(username string) {
 	}
 	utils.Log()
 }
+
+func GetUserVideosJson(username string) {
+	uploads := client.GetUserUploadsJson(username)
+    fmt.Printf("%s", uploads)
+}

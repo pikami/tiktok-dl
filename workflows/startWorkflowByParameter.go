@@ -1,6 +1,7 @@
 package workflows
 
 import (
+	config "../models/config"
 	res "../resources"
 	utils "../utils"
 )
@@ -10,7 +11,11 @@ func StartWorkflowByParameter(url string) {
 
 	// Music
 	if CanUseDownloadMusic(url) {
-		DownloadMusic(url)
+		if config.Config.JSONOnly {
+			GetMusicJson(url)
+		} else {
+			DownloadMusic(url)
+		}
 		return
 	}
 
@@ -22,7 +27,22 @@ func StartWorkflowByParameter(url string) {
 
 	// Tiktok user
 	if CanUseDownloadUser(url) {
-		DownloadUser(utils.GetUsernameFromString(url))
+		if config.Config.JSONOnly {
+			GetUserVideosJson(utils.GetUsernameFromString(url))
+		} else {
+			DownloadUser(utils.GetUsernameFromString(url))
+		}
+
+		return
+	}
+
+	// Tiktok hashtag
+	if CanUseDownloadHashtag(url) {
+		if config.Config.JSONOnly {
+			GetHashtagJson(url)
+		} else {
+			DownloadHashtag(url)
+		}
 		return
 	}
 
