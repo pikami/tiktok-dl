@@ -31,5 +31,5 @@ func DownloadUser(username string) {
 
 func GetUserVideosJson(username string) {
 	uploads := client.GetUserUploadsJson(username)
-    fmt.Printf("%s", uploads)
+	fmt.Printf("%s", uploads)
 }
