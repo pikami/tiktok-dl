@@ -3,6 +3,7 @@ package utils
 import (
 	config "../models/config"
 	"fmt"
+	"os"
 )
 
 // Log - Write to std out
@@ -22,4 +23,9 @@ func Logf(format string, a ...interface{}) {
 // LogFatal - Write error and panic
 func LogFatal(format string, a ...interface{}) {
 	panic(fmt.Sprintf(format, a...))
+}
+
+// LogErr - Write error
+func LogErr(format string, a ...interface{}) {
+	fmt.Fprintf(os.Stderr, format, a...)
 }

@@ -4,6 +4,7 @@ import (
 	client "../client"
 	models "../models"
 	config "../models/config"
+	res "../resources"
 	utils "../utils"
 	"fmt"
 	"regexp"
@@ -18,7 +19,11 @@ func CanUseDownloadSingleVideo(url string) bool {
 // DownloadSingleVideo - Downloads single video
 func DownloadSingleVideo(url string) {
 	username := utils.GetUsernameFromString(url)
-	upload := client.GetVideoDetails(url)
+	upload, err := client.GetVideoDetails(url)
+	if err != nil {
+		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		return
+	}
 	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, username)
 
 	utils.InitOutputDirectory(downloadDir)

@@ -17,6 +17,7 @@ optStrings = {
     classes: {
         feedVideoItem: 'video-feed-item-wrapper',
         modalCloseDisabled: 'disabled',
+        titleMessage: 'title',
     },
     tags: {
         resultTag: 'video_urls',
@@ -25,6 +26,11 @@ optStrings = {
     attributes: {
         src: "src",
     },
+    tiktokMessages: [
+        "Couldn't find this account",
+        "No videos yet",
+        "Video currently unavailable",
+    ],
 };
 
 currentState = {
@@ -32,12 +38,25 @@ currentState = {
     finished: false,
 };
 
+checkForErrors = function() {
+    var titles = document.getElementsByClassName(optStrings.classes.titleMessage);
+    debugger;
+    if (titles && titles.length) {
+        var error = Array.from(titles).find(x => optStrings.tiktokMessages.includes(x.textContent)).textContent;
+        if (error) {
+            createVidUrlElement("ERR: " + error);
+            return true;
+        }
+    }
+    return false;
+};
+
 createVidUrlElement = function(outputObj) {
     var urlSetElement = document.createElement(optStrings.tags.resultTag);
     urlSetElement.innerText = JSON.stringify(outputObj);
     document.getElementsByTagName(optStrings.tags.resultParentTag)[0].appendChild(urlSetElement);
     currentState.finished = true;
-}
+};
 
 buldVidUrlArray = function(finishCallback) {
     var feedItem = document.getElementsByClassName(optStrings.classes.feedVideoItem)[0];
@@ -78,9 +97,10 @@ getCurrentModalVideo = function() {
             link: soundHref,
         },
     };
-}
+};
 
 getCurrentVideo = function() {
+    if(checkForErrors()) return;
     var player = document.querySelector(optStrings.selectors.videoPlayer);
     var vidUrl = player.getAttribute(optStrings.attributes.src);
     var shareLink = document.querySelector(optStrings.selectors.videoShareInput).value;
@@ -100,13 +120,17 @@ getCurrentVideo = function() {
             link: soundHref,
         },
     };
-}
+};
 
 scrollWhileNew = function(finishCallback) {
     var state = { count: 0 };
     var intervalID = window.setInterval(x => {
         var oldCount = state.count;
         state.count = document.getElementsByClassName(optStrings.classes.feedVideoItem).length;
+        if(checkForErrors()) {
+            window.clearInterval(intervalID);
+            return;
+        }
         if (oldCount !== state.count) {
             currentState.preloadCount = state.count;
             window.scrollTo(0, document.body.scrollHeight);
@@ -130,7 +154,7 @@ bootstrapGetCurrentVideo = function() {
     var video = getCurrentVideo();
     createVidUrlElement(video);
     return 'bootstrapGetCurrentVideo';
-}
+};
 
 init = () => {
     const newProto = navigator.__proto__;
