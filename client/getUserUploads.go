@@ -8,7 +8,7 @@ import (
 
 // GetUserUploads - Get all uploads by user
 func GetUserUploads(username string) ([]models.Upload, error) {
-  jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
+	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
 	actionOutput, err := executeClientAction(`https://www.tiktok.com/@`+username, jsMethod)
 	if err != nil {
 		return nil, err

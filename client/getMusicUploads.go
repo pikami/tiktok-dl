@@ -8,7 +8,7 @@ import (
 
 // GetMusicUploads - Get all uploads by given music
 func GetMusicUploads(url string) ([]models.Upload, error) {
-  jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
+	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
 	actionOutput, err := executeClientAction(url, jsMethod)
 	if err != nil {
 		return nil, err
