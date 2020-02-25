@@ -7,10 +7,13 @@ import (
 )
 
 // GetMusicUploads - Get all uploads by given music
-func GetMusicUploads(url string) []models.Upload {
-	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
-	actionOutput := executeClientAction(url, jsMethod)
-	return models.ParseUploads(actionOutput)
+func GetMusicUploads(url string) ([]models.Upload, error) {
+  jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
+	actionOutput, err := executeClientAction(url, jsMethod)
+	if err != nil {
+		return nil, err
+	}
+	return models.ParseUploads(actionOutput), nil
 }
 
 func GetMusicUploadsJson(url string) string {

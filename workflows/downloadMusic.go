@@ -3,6 +3,7 @@ package workflows
 import (
 	client "../client"
 	config "../models/config"
+	res "../resources"
 	utils "../utils"
 	"fmt"
 	"regexp"
@@ -16,7 +17,11 @@ func CanUseDownloadMusic(url string) bool {
 
 // DownloadMusic - Download all videos by given music
 func DownloadMusic(url string) {
-	uploads := client.GetMusicUploads(url)
+	uploads, err := client.GetMusicUploads(url)
+	if err != nil {
+		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		return
+	}
 	uploadCount := len(uploads)
 
 	for index, upload := range uploads {

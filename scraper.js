@@ -17,6 +17,7 @@ optStrings = {
     classes: {
         feedVideoItem: 'video-feed-item-wrapper',
         modalCloseDisabled: 'disabled',
+        titleMessage: 'title',
     },
     tags: {
         resultTag: 'video_urls',
@@ -25,12 +26,30 @@ optStrings = {
     attributes: {
         src: "src",
     },
+    tiktokMessages: [
+        "Couldn't find this account",
+        "No videos yet",
+        "Video currently unavailable",
+    ],
 };
 
 currentState = {
     preloadCount: 0,
     finished: false,
     limit: 0
+};
+
+checkForErrors = function() {
+    var titles = document.getElementsByClassName(optStrings.classes.titleMessage);
+    debugger;
+    if (titles && titles.length) {
+        var error = Array.from(titles).find(x => optStrings.tiktokMessages.includes(x.textContent)).textContent;
+        if (error) {
+            createVidUrlElement("ERR: " + error);
+            return true;
+        }
+    }
+    return false;
 };
 
 createVidUrlElement = function(outputObj) {
@@ -88,6 +107,7 @@ getCurrentModalVideo = function() {
 };
 
 getCurrentVideo = function() {
+    if(checkForErrors()) return;
     var player = document.querySelector(optStrings.selectors.videoPlayer);
     var vidUrl = player.getAttribute(optStrings.attributes.src);
     var shareLink = document.querySelector(optStrings.selectors.videoShareInput).value;
@@ -119,6 +139,10 @@ scrollWhileNew = function(finishCallback) {
                 finishCallback(createVidUrlElement);
                 window.clearInterval(intervalID);
             }
+        }
+        if(checkForErrors()) {
+            window.clearInterval(intervalID);
+            return;
         }
         if (oldCount !== state.count) {
             currentState.preloadCount = state.count;
