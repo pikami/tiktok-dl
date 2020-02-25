@@ -65,7 +65,6 @@ func runScrapeWithInfo(ctx context.Context, jsAction string, url string) string 
 		// Navigate to user's page
 		chromedp.Navigate(url),
 		// Execute url grabber script
-		chromedp.WaitReady("video"),
 		chromedp.EvaluateAsDevTools(utils.ReadFileAsString("scraper.js"), &jsOutput),
 		chromedp.EvaluateAsDevTools(jsAction, &jsOutput),
 	)

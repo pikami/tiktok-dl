@@ -30,7 +30,7 @@ optStrings = {
 currentState = {
     preloadCount: 0,
     finished: false,
-    limit: 100
+    limit: 0
 };
 
 createVidUrlElement = function(outputObj) {
