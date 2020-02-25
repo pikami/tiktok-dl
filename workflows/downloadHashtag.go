@@ -3,6 +3,7 @@ package workflows
 import (
 	client "../client"
 	config "../models/config"
+	res "../resources"
 	utils "../utils"
 	"fmt"
 	"strings"
@@ -16,7 +17,11 @@ func CanUseDownloadHashtag(url string) bool {
 
 // DownloadHashtag - Download videos marked with given hashtag
 func DownloadHashtag(url string) {
-	uploads := client.GetHashtagUploads(url)
+	uploads, err := client.GetHashtagUploads(url)
+	if err != nil {
+		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		return
+	}
 	uploadCount := len(uploads)
 	hashtag := utils.GetHashtagFromURL(url)
 	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, hashtag)
@@ -31,6 +36,10 @@ func DownloadHashtag(url string) {
 }
 
 func GetHashtagJson(url string) {
-	uploads := client.GetHashtagUploads(url)
+	uploads, err := client.GetHashtagUploads(url)
+	if err != nil {
+		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		return
+	}
 	fmt.Printf("%s", uploads)
 }

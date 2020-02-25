@@ -37,6 +37,10 @@ func DownloadUser(username string) {
 }
 
 func GetUserVideosJson(username string) {
-	uploads := client.GetUserUploadsJson(username)
+	uploads, err := client.GetUserUploadsJson(username)
+	if err != nil {
+		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		return
+	}
 	fmt.Printf("%s", uploads)
 }

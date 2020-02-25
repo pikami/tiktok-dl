@@ -7,13 +7,20 @@ import (
 )
 
 // GetUserUploads - Get all uploads marked with given hashtag
-func GetHashtagUploads(hashtagURL string) []models.Upload {
+func GetHashtagUploads(hashtagURL string) ([]models.Upload, error) {
 	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
-	actionOutput := executeClientAction(hashtagURL, jsMethod)
-	return models.ParseUploads(actionOutput)
+	actionOutput, err := executeClientAction(hashtagURL, jsMethod)
+	if err != nil {
+		return nil, err
+	}
+	return models.ParseUploads(actionOutput), nil
 }
 
-func GetHashtagUploadsJson(hashtagURL string) string {
+func GetHashtagUploadsJson(hashtagURL string) (string, error) {
 	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
-	return executeClientAction(hashtagURL, jsMethod)
+	actionOutput, err := executeClientAction(hashtagURL, jsMethod)
+	if err != nil {
+		return "", err
+	}
+	return actionOutput, nil
 }

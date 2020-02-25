@@ -16,7 +16,11 @@ func GetMusicUploads(url string) ([]models.Upload, error) {
 	return models.ParseUploads(actionOutput), nil
 }
 
-func GetMusicUploadsJson(url string) string {
+func GetMusicUploadsJson(url string) (string, error) {
 	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
-	return executeClientAction(url, jsMethod)
+	actionOutput, err := executeClientAction(url, jsMethod)
+	if err != nil {
+		return "", err
+	}
+	return actionOutput, nil
 }

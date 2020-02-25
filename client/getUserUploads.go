@@ -16,7 +16,11 @@ func GetUserUploads(username string) ([]models.Upload, error) {
 	return models.ParseUploads(actionOutput), nil
 }
 
-func GetUserUploadsJson(username string) string {
+func GetUserUploadsJson(username string) (string, error) {
 	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
-	return executeClientAction(`https://www.tiktok.com/@`+username, jsMethod)
+	actionOutput, err := executeClientAction(`https://www.tiktok.com/@`+username, jsMethod)
+	if err != nil {
+		return "", err
+	}
+	return actionOutput, nil
 }
