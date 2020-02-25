@@ -15,6 +15,8 @@ var Config struct {
 	MetaData      bool
 	Quiet         bool
 	Deadline      int
+	Limit         int
+	JSONOnly      bool
 }
 
 // GetConfig - Returns Config object
@@ -25,6 +27,8 @@ func GetConfig() {
 	metadata := flag.Bool("metadata", false, "Write video metadata to a .json file")
 	quiet := flag.Bool("quiet", false, "Supress output")
 	deadline := flag.Int("deadline", 1500, "Sets the timout for scraper logic in seconds (used as a workaround for 'context deadline exceeded' error)")
+	limit := flag.Int("limit", 0, "Sets the videos count limit (useful when there too many videos from the user or by hashtag)")
+	jsonOnly := flag.Bool("json", false, "Just get JSON data from scraper (without video downloading)")
 	flag.Parse()
 
 	args := flag.Args()
@@ -44,5 +48,10 @@ func GetConfig() {
 	Config.Debug = *debug
 	Config.MetaData = *metadata
 	Config.Quiet = *quiet
+	if *jsonOnly {
+		Config.Quiet = true
+	}
 	Config.Deadline = *deadline
+	Config.Limit = *limit
+	Config.JSONOnly = *jsonOnly
 }

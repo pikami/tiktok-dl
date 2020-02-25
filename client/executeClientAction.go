@@ -84,7 +84,7 @@ func runScrapeWithInfo(ctx context.Context, jsAction string, url string) (string
 		}
 
 		if jsOutput != "0" {
-			utils.Logf("\rPreloading... Currently loaded %s items.", jsOutput)
+			utils.Logf("\rPreloading... %s items have been founded.", jsOutput)
 		} else {
 			utils.Logf("\rPreloading...")
 		}

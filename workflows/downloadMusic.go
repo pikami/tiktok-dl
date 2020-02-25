@@ -34,3 +34,12 @@ func DownloadMusic(url string) {
 	}
 	utils.Log()
 }
+
+func GetMusicJson(url string) {
+	uploads, err := client.GetMusicUploadsJson(url)
+	if err != nil {
+		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		return
+	}
+	fmt.Printf("%s", uploads)
+}

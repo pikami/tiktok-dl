@@ -1,7 +1,7 @@
 optStrings = {
     selectors: {
         feedLoading: 'div.tiktok-loading.feed-loading',
-        modalArrowLeft: 'div.video-card-modal > div > img.arrow-right',
+        modalArrowRight: 'div.video-card-modal > div > img.arrow-right',
         modalClose: '.video-card-modal > div > div.close',
         modalPlayer: 'div > div > main > div.video-card-modal > div > div.video-card-big > div.video-card-container > div > div > video',
         modalShareInput: '.copy-link-container > input',
@@ -36,6 +36,7 @@ optStrings = {
 currentState = {
     preloadCount: 0,
     finished: false,
+    limit: 0
 };
 
 checkForErrors = function() {
@@ -65,8 +66,14 @@ buldVidUrlArray = function(finishCallback) {
     var videoArray = [];
     var intervalID = window.setInterval(x => {
         videoArray.push(getCurrentModalVideo());
-
-        var arrowRight = document.querySelectorAll(optStrings.selectors.modalArrowLeft)[0];
+        if(currentState.limit > 0) {
+            if (videoArray.length >= currentState.limit) {
+                window.clearInterval(intervalID);
+                document.querySelector(optStrings.selectors.modalClose).click();
+                finishCallback(videoArray);
+            }
+        }
+        var arrowRight = document.querySelectorAll(optStrings.selectors.modalArrowRight)[0];
         if (arrowRight.classList.contains(optStrings.classes.modalCloseDisabled)) {
             window.clearInterval(intervalID);
             document.querySelector(optStrings.selectors.modalClose).click();
@@ -127,6 +134,12 @@ scrollWhileNew = function(finishCallback) {
     var intervalID = window.setInterval(x => {
         var oldCount = state.count;
         state.count = document.getElementsByClassName(optStrings.classes.feedVideoItem).length;
+        if(currentState.limit > 0) {
+            if (currentState.preloadCount >= currentState.limit || state.count >= currentState.limit) {
+                finishCallback(createVidUrlElement);
+                window.clearInterval(intervalID);
+            }
+        }
         if(checkForErrors()) {
             window.clearInterval(intervalID);
             return;
@@ -145,7 +158,8 @@ scrollWhileNew = function(finishCallback) {
     }, 1000);
 };
 
-bootstrapIteratingVideos = function() {
+bootstrapIteratingVideos = function(limit) {
+    currentState.limit = limit;
     scrollWhileNew(buldVidUrlArray);
     return 'bootstrapIteratingVideos';
 };

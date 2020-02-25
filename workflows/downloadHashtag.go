@@ -6,26 +6,25 @@ import (
 	res "../resources"
 	utils "../utils"
 	"fmt"
-	"regexp"
 	"strings"
 )
 
-// CanUseDownloadUser - Test's if this workflow can be used for parameter
-func CanUseDownloadUser(url string) bool {
-	isURL := strings.Contains(url, "/")
-	match, _ := regexp.MatchString(".+com\\/@[^\\/]+", url)
-	return !isURL || match
+// CanUseDownloadHashtag - Test's if this workflow can be used for parameter
+func CanUseDownloadHashtag(url string) bool {
+	match := strings.Contains(url, "/tag/")
+	return match
 }
 
-// DownloadUser - Download all user's videos
-func DownloadUser(username string) {
-	uploads, err := client.GetUserUploads(username)
+// DownloadHashtag - Download videos marked with given hashtag
+func DownloadHashtag(url string) {
+	uploads, err := client.GetHashtagUploads(url)
 	if err != nil {
 		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
 		return
 	}
 	uploadCount := len(uploads)
-	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, username)
+	hashtag := utils.GetHashtagFromURL(url)
+	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, hashtag)
 
 	utils.InitOutputDirectory(downloadDir)
 
@@ -36,8 +35,8 @@ func DownloadUser(username string) {
 	utils.Log()
 }
 
-func GetUserVideosJson(username string) {
-	uploads, err := client.GetUserUploadsJson(username)
+func GetHashtagJson(url string) {
+	uploads, err := client.GetHashtagUploads(url)
 	if err != nil {
 		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
 		return
