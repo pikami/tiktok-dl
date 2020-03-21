@@ -2,7 +2,7 @@ package workflows
 
 import (
 	res "../resources"
-	utils "../utils"
+	fileio "../utils/fileio"
 	log "../utils/log"
 )
 
@@ -13,11 +13,11 @@ func CanUseDownloadBatchFile(batchFilePath string) bool {
 
 // DownloadBatchFile - Download items from batch file
 func DownloadBatchFile(batchFilePath string) {
-	if !utils.CheckIfExists(batchFilePath) {
+	if !fileio.CheckIfExists(batchFilePath) {
 		log.LogFatal(res.ErrorPathNotFound, batchFilePath)
 	}
 
-	utils.ReadFileLineByLine(batchFilePath, downloadItem)
+	fileio.ReadFileLineByLine(batchFilePath, downloadItem)
 }
 
 func downloadItem(batchItem string) {

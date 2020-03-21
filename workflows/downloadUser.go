@@ -9,6 +9,7 @@ import (
 	config "../models/config"
 	res "../resources"
 	utils "../utils"
+	fileio "../utils/fileio"
 	log "../utils/log"
 )
 
@@ -32,7 +33,7 @@ func DownloadUser(username string) {
 
 	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, username)
 
-	utils.InitOutputDirectory(downloadDir)
+	fileio.InitOutputDirectory(downloadDir)
 
 	for index, upload := range uploads {
 		downloadVideo(upload, downloadDir)

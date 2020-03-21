@@ -8,6 +8,7 @@ import (
 	config "../models/config"
 	res "../resources"
 	utils "../utils"
+	fileio "../utils/fileio"
 	log "../utils/log"
 )
 
@@ -32,7 +33,7 @@ func DownloadMusic(url string) {
 		username := utils.GetUsernameFromString(upload.Uploader)
 		downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, username)
 
-		utils.InitOutputDirectory(downloadDir)
+		fileio.InitOutputDirectory(downloadDir)
 		downloadVideo(upload, downloadDir)
 		log.Logf("\r[%d/%d] Downloaded", index+1, uploadCount)
 	}

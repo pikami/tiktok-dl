@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	checkErr "./checkErr"
+	checkErr "../checkErr"
 )
 
 type delegateString func(string)

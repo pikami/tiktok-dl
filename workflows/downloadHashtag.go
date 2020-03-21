@@ -8,6 +8,7 @@ import (
 	config "../models/config"
 	res "../resources"
 	utils "../utils"
+	fileio "../utils/fileio"
 	log "../utils/log"
 )
 
@@ -31,7 +32,7 @@ func DownloadHashtag(url string) {
 	hashtag := utils.GetHashtagFromURL(url)
 	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, hashtag)
 
-	utils.InitOutputDirectory(downloadDir)
+	fileio.InitOutputDirectory(downloadDir)
 
 	for index, upload := range uploads {
 		downloadVideo(upload, downloadDir)

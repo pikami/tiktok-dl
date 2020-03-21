@@ -3,6 +3,7 @@ package utils
 import (
 	models "../models"
 	config "../models/config"
+	fileio "./fileio"
 	log "./log"
 )
 
@@ -18,7 +19,7 @@ func IsItemInArchive(upload models.Upload) bool {
 func RemoveArchivedItems(uploads []models.Upload) []models.Upload {
 	archiveFilePath := config.Config.ArchiveFilePath
 
-	if archiveFilePath == "" || !CheckIfExists(archiveFilePath) {
+	if archiveFilePath == "" || !fileio.CheckIfExists(archiveFilePath) {
 		return uploads
 	}
 
@@ -31,7 +32,7 @@ func RemoveArchivedItems(uploads []models.Upload) []models.Upload {
 	}
 
 	lenBeforeRemoval := len(uploads)
-	ReadFileLineByLine(archiveFilePath, removeArchivedItemsDelegate)
+	fileio.ReadFileLineByLine(archiveFilePath, removeArchivedItemsDelegate)
 
 	removedCount := lenBeforeRemoval - len(uploads)
 	if removedCount > 0 {
@@ -49,5 +50,5 @@ func AddItemToArchive(uploadID string) {
 		return
 	}
 
-	AppendToFile(uploadID, archiveFilePath)
+	fileio.AppendToFile(uploadID, archiveFilePath)
 }

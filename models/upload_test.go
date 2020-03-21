@@ -1,10 +1,11 @@
 package models
 
 import (
-	testUtil "../unitTestUtil"
-	utils "../utils"
 	"os"
 	"testing"
+
+	testUtil "../unitTestUtil"
+	fileio "../utils/fileio"
 )
 
 func TestParseUploads(t *testing.T) {
@@ -62,7 +63,7 @@ func TestWriteToFile(t *testing.T) {
 
 	upload.WriteToFile(filePath)
 
-	actual := utils.ReadFileToString(filePath)
+	actual := fileio.ReadFileToString(filePath)
 	tu.AssertString(actual, expected, "File content")
 
 	os.Remove(filePath)

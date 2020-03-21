@@ -9,6 +9,7 @@ import (
 	config "../models/config"
 	res "../resources"
 	utils "../utils"
+	fileio "../utils/fileio"
 	log "../utils/log"
 )
 
@@ -32,7 +33,7 @@ func DownloadSingleVideo(url string) {
 	}
 	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, username)
 
-	utils.InitOutputDirectory(downloadDir)
+	fileio.InitOutputDirectory(downloadDir)
 	downloadVideo(upload, downloadDir)
 	log.Log("[1/1] Downloaded\n")
 }
@@ -42,7 +43,7 @@ func downloadVideo(upload models.Upload, downloadDir string) {
 	uploadID := upload.GetUploadID()
 	downloadPath := fmt.Sprintf("%s/%s.mp4", downloadDir, uploadID)
 
-	if utils.CheckIfExists(downloadPath) {
+	if fileio.CheckIfExists(downloadPath) {
 		return
 	}
 
