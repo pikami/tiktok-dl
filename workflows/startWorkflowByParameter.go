@@ -47,5 +47,11 @@ func StartWorkflowByParameter(url string) {
 		return
 	}
 
+	// Share URL
+	if CanUseDownloadShareLink(url) {
+		DownloadShareLink(url)
+		return
+	}
+
 	log.LogFatal(res.ErrorCouldNotRecogniseURL, url)
 }
