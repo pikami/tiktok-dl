@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"io/ioutil"
 	"os"
+
+	checkErr "./checkErr"
 )
 
 type delegateString func(string)
@@ -37,7 +39,7 @@ func ReadFileToString(path string) string {
 // ReadFileLineByLine - Reads file line by line and calls delegate
 func ReadFileLineByLine(path string, delegate delegateString) {
 	file, err := os.Open(path)
-	CheckErr(err)
+	checkErr.CheckErr(err)
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -47,5 +49,16 @@ func ReadFileLineByLine(path string, delegate delegateString) {
 
 	if err := scanner.Err(); err != nil {
 		panic(err)
+	}
+}
+
+// AppendToFile - Appends line to file
+func AppendToFile(str string, filePath string) {
+	f, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	checkErr.CheckErr(err)
+
+	defer f.Close()
+	if _, err := f.WriteString(str + "\n"); err != nil {
+		checkErr.CheckErr(err)
 	}
 }

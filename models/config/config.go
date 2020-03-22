@@ -8,27 +8,29 @@ import (
 
 // Config - Runtime configuration
 var Config struct {
-	URL           string
-	OutputPath    string
-	BatchFilePath string
-	Debug         bool
-	MetaData      bool
-	Quiet         bool
-	Deadline      int
-	Limit         int
-	JSONOnly      bool
+	URL             string
+	OutputPath      string
+	BatchFilePath   string
+	ArchiveFilePath string
+	Debug           bool
+	MetaData        bool
+	Quiet           bool
+	JSONOnly        bool
+	Deadline        int
+	Limit           int
 }
 
 // GetConfig - Returns Config object
 func GetConfig() {
 	outputPath := flag.String("output", "./downloads", "Output path")
 	batchFilePath := flag.String("batch-file", "", "File containing URLs/Usernames to download, one value per line. Lines starting with '#', are considered as comments and ignored.")
+	archive := flag.String("archive", "", "Download only videos not listed in the archive file. Record the IDs of all downloaded videos in it.")
 	debug := flag.Bool("debug", false, "Enables debug mode")
 	metadata := flag.Bool("metadata", false, "Write video metadata to a .json file")
 	quiet := flag.Bool("quiet", false, "Supress output")
+	jsonOnly := flag.Bool("json", false, "Just get JSON data from scraper (without video downloading)")
 	deadline := flag.Int("deadline", 1500, "Sets the timout for scraper logic in seconds (used as a workaround for 'context deadline exceeded' error)")
 	limit := flag.Int("limit", 0, "Sets the videos count limit (useful when there too many videos from the user or by hashtag)")
-	jsonOnly := flag.Bool("json", false, "Just get JSON data from scraper (without video downloading)")
 	flag.Parse()
 
 	args := flag.Args()
@@ -45,13 +47,14 @@ func GetConfig() {
 	}
 	Config.OutputPath = *outputPath
 	Config.BatchFilePath = *batchFilePath
+	Config.ArchiveFilePath = *archive
 	Config.Debug = *debug
 	Config.MetaData = *metadata
 	Config.Quiet = *quiet
 	if *jsonOnly {
 		Config.Quiet = true
 	}
+	Config.JSONOnly = *jsonOnly
 	Config.Deadline = *deadline
 	Config.Limit = *limit
-	Config.JSONOnly = *jsonOnly
 }

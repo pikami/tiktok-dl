@@ -1,9 +1,10 @@
 package utils
 
 import (
-	config "../models/config"
 	"fmt"
 	"os"
+
+	config "../../models/config"
 )
 
 // Log - Write to std out

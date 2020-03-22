@@ -1,22 +1,23 @@
 package client
 
 import (
+	"fmt"
+
 	models "../models"
 	config "../models/config"
-	"fmt"
 )
 
 // GetMusicUploads - Get all uploads by given music
 func GetMusicUploads(url string) ([]models.Upload, error) {
-	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
-	actionOutput, err := executeClientAction(url, jsMethod)
+	actionOutput, err := GetMusicUploadsJSON(url)
 	if err != nil {
 		return nil, err
 	}
 	return models.ParseUploads(actionOutput), nil
 }
 
-func GetMusicUploadsJson(url string) (string, error) {
+// GetMusicUploadsJSON - Get music uploads scrape
+func GetMusicUploadsJSON(url string) (string, error) {
 	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
 	actionOutput, err := executeClientAction(url, jsMethod)
 	if err != nil {

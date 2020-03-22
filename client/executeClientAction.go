@@ -3,15 +3,16 @@ package client
 import (
 	"context"
 	"errors"
-	"github.com/chromedp/chromedp"
 	"io/ioutil"
-	"log"
 	"os"
 	"strings"
 	"time"
 
+	"github.com/chromedp/chromedp"
+
 	config "../models/config"
 	utils "../utils"
+	log "../utils/log"
 )
 
 // GetMusicUploads - Get all uploads by given music
@@ -33,7 +34,7 @@ func executeClientAction(url string, jsAction string) (string, error) {
 
 	ctx, cancel := chromedp.NewContext(
 		allocCtx,
-		chromedp.WithLogf(log.Printf),
+		chromedp.WithLogf(log.Logf),
 	)
 	defer cancel()
 
@@ -84,9 +85,9 @@ func runScrapeWithInfo(ctx context.Context, jsAction string, url string) (string
 		}
 
 		if jsOutput != "0" {
-			utils.Logf("\rPreloading... %s items have been founded.", jsOutput)
+			log.Logf("\rPreloading... %s items have been found.", jsOutput)
 		} else {
-			utils.Logf("\rPreloading...")
+			log.Logf("\rPreloading...")
 		}
 
 		if err := chromedp.Run(ctx, chromedp.EvaluateAsDevTools("currentState.finished.toString()", &jsOutput)); err != nil {
@@ -100,7 +101,7 @@ func runScrapeWithInfo(ctx context.Context, jsAction string, url string) (string
 		time.Sleep(50 * time.Millisecond)
 	}
 
-	utils.Log("\nRetrieving items...")
+	log.Log("\nRetrieving items...")
 	if err := chromedp.Run(ctx,
 		// Wait until custom js finishes
 		chromedp.WaitVisible(`video_urls`),

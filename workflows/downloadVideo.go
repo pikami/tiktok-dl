@@ -1,13 +1,15 @@
 package workflows
 
 import (
+	"fmt"
+	"regexp"
+
 	client "../client"
 	models "../models"
 	config "../models/config"
 	res "../resources"
 	utils "../utils"
-	"fmt"
-	"regexp"
+	log "../utils/log"
 )
 
 // CanUseDownloadSingleVideo - Check's if DownloadSingleVideo can be used for parameter
@@ -21,14 +23,18 @@ func DownloadSingleVideo(url string) {
 	username := utils.GetUsernameFromString(url)
 	upload, err := client.GetVideoDetails(url)
 	if err != nil {
-		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		return
+	}
+
+	if utils.IsItemInArchive(upload) {
 		return
 	}
 	downloadDir := fmt.Sprintf("%s/%s", config.Config.OutputPath, username)
 
 	utils.InitOutputDirectory(downloadDir)
 	downloadVideo(upload, downloadDir)
-	utils.Log("[1/1] Downloaded\n")
+	log.Log("[1/1] Downloaded\n")
 }
 
 // DownloadVideo - Downloads one video
@@ -46,4 +52,6 @@ func downloadVideo(upload models.Upload, downloadDir string) {
 		metadataPath := fmt.Sprintf("%s/%s.json", downloadDir, uploadID)
 		upload.WriteToFile(metadataPath)
 	}
+
+	utils.AddItemToArchive(upload.GetUploadID())
 }

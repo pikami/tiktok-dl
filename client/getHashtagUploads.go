@@ -1,22 +1,24 @@
 package client
 
 import (
+	"fmt"
+
 	models "../models"
 	config "../models/config"
-	"fmt"
 )
 
-// GetUserUploads - Get all uploads marked with given hashtag
+// GetHashtagUploads - Get all uploads marked with given hashtag
 func GetHashtagUploads(hashtagURL string) ([]models.Upload, error) {
-	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
-	actionOutput, err := executeClientAction(hashtagURL, jsMethod)
+	actionOutput, err := GetHashtagUploadsJSON(hashtagURL)
 	if err != nil {
 		return nil, err
 	}
+
 	return models.ParseUploads(actionOutput), nil
 }
 
-func GetHashtagUploadsJson(hashtagURL string) (string, error) {
+// GetHashtagUploadsJSON - Get hashtag uploads scrape
+func GetHashtagUploadsJSON(hashtagURL string) (string, error) {
 	jsMethod := fmt.Sprintf("bootstrapIteratingVideos(%d)", config.Config.Limit)
 	actionOutput, err := executeClientAction(hashtagURL, jsMethod)
 	if err != nil {

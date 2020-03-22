@@ -1,11 +1,13 @@
 package models
 
 import (
-	res "../resources"
-	utils "../utils"
 	"encoding/json"
 	"os"
 	"strings"
+
+	res "../resources"
+	checkErr "../utils/checkErr"
+	log "../utils/log"
 )
 
 // Upload - Upload object
@@ -47,16 +49,16 @@ func (u Upload) GetUploadID() string {
 func (u Upload) WriteToFile(outputPath string) {
 	bytes, err := json.Marshal(u)
 	if err != nil {
-		utils.Logf(res.ErrorCouldNotSerializeJSON, u.GetUploadID())
+		log.Logf(res.ErrorCouldNotSerializeJSON, u.GetUploadID())
 		panic(err)
 	}
 
 	// Create the file
 	out, err := os.Create(outputPath)
-	utils.CheckErr(err)
+	checkErr.CheckErr(err)
 	defer out.Close()
 
 	// Write to file
 	_, err = out.Write(bytes)
-	utils.CheckErr(err)
+	checkErr.CheckErr(err)
 }

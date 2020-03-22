@@ -3,6 +3,7 @@ package workflows
 import (
 	res "../resources"
 	utils "../utils"
+	log "../utils/log"
 )
 
 // CanUseDownloadBatchFile - Check's if DownloadBatchFile can be used
@@ -13,7 +14,7 @@ func CanUseDownloadBatchFile(batchFilePath string) bool {
 // DownloadBatchFile - Download items from batch file
 func DownloadBatchFile(batchFilePath string) {
 	if !utils.CheckIfExists(batchFilePath) {
-		utils.LogFatal(res.ErrorPathNotFound, batchFilePath)
+		log.LogFatal(res.ErrorPathNotFound, batchFilePath)
 	}
 
 	utils.ReadFileLineByLine(batchFilePath, downloadItem)

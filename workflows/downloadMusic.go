@@ -1,12 +1,14 @@
 package workflows
 
 import (
+	"fmt"
+	"regexp"
+
 	client "../client"
 	config "../models/config"
 	res "../resources"
 	utils "../utils"
-	"fmt"
-	"regexp"
+	log "../utils/log"
 )
 
 // CanUseDownloadMusic - Check's if DownloadMusic can be used for parameter
@@ -19,9 +21,11 @@ func CanUseDownloadMusic(url string) bool {
 func DownloadMusic(url string) {
 	uploads, err := client.GetMusicUploads(url)
 	if err != nil {
-		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
 		return
 	}
+
+	uploads = utils.RemoveArchivedItems(uploads)
 	uploadCount := len(uploads)
 
 	for index, upload := range uploads {
@@ -30,15 +34,16 @@ func DownloadMusic(url string) {
 
 		utils.InitOutputDirectory(downloadDir)
 		downloadVideo(upload, downloadDir)
-		utils.Logf("\r[%d/%d] Downloaded", index+1, uploadCount)
+		log.Logf("\r[%d/%d] Downloaded", index+1, uploadCount)
 	}
-	utils.Log()
+	log.Log()
 }
 
-func GetMusicJson(url string) {
-	uploads, err := client.GetMusicUploadsJson(url)
+// GetMusicJSON - Prints scraped info from music
+func GetMusicJSON(url string) {
+	uploads, err := client.GetMusicUploadsJSON(url)
 	if err != nil {
-		utils.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
 		return
 	}
 	fmt.Printf("%s", uploads)
