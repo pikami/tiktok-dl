@@ -3,12 +3,14 @@
     "version": "0.0.1",
     "scripts": {
         "install-dependencies": "go get -v -t -d ./...",
+        "test:coverage": "go test -short -coverprofile=cov.out ./models ./utils",
         "test": "go test -v ./models && go test -v ./utils",
         "clean": "rm -rf out",
         "build:scraper": "node node_modules/terser/bin/terser -c -m -- scraper.js > out/scraper.js",
         "build:app": "go build -o out/ -v .",
         "build:dist": "mkdir out && npm run build:app && npm run build:scraper",
-        "build": "go build -v ."
+        "build": "go build -v .",
+        "sonar": "sonar-scanner -Dsonar.login=${SONAR_LOGIN} -Dproject.settings=.sonar/sonar-project.properties"
     },
     "dependencies": {
         "terser": "^4.6.3"

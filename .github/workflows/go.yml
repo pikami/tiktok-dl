@@ -33,6 +33,9 @@ jobs:
 
     - name: Build
       run: npm run build:dist
+    
+    - name: Copy license
+      run: cp LICENSE out
 
     - name: Upload Unix Artifacts
       if: startsWith(matrix.os, 'ubuntu-')
