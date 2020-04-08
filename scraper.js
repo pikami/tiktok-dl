@@ -129,9 +129,12 @@ getCurrentVideo = function() {
     };
 };
 
+scrollBottom = () => window.scrollTo(0, document.body.scrollHeight);
+
 scrollWhileNew = function(finishCallback) {
     var state = { count: 0 };
     var intervalID = window.setInterval(x => {
+        scrollBottom();
         var oldCount = state.count;
         state.count = document.getElementsByClassName(optStrings.classes.feedVideoItem).length;
         if(currentState.limit > 0) {
@@ -143,13 +146,13 @@ scrollWhileNew = function(finishCallback) {
         if(checkForErrors()) {
             window.clearInterval(intervalID);
             return;
+        } else if (state.count == 0) {
+            return;
         }
         if (oldCount !== state.count) {
             currentState.preloadCount = state.count;
-            window.scrollTo(0, document.body.scrollHeight);
         } else {
             if (document.querySelector(optStrings.selectors.feedLoading)) {
-                window.scrollTo(0, document.body.scrollHeight);
                 return;
             }
             window.clearInterval(intervalID);
