@@ -7,7 +7,6 @@ import (
 
 	client "../client"
 	config "../models/config"
-	res "../resources"
 	utils "../utils"
 	fileio "../utils/fileio"
 	log "../utils/log"
@@ -24,7 +23,7 @@ func CanUseDownloadUser(url string) bool {
 func DownloadUser(username string) {
 	uploads, err := client.GetUserUploads(username)
 	if err != nil {
-		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		OnWorkflowFail(err, username)
 		return
 	}
 
@@ -46,7 +45,7 @@ func DownloadUser(username string) {
 func GetUserVideosJSON(username string) {
 	uploads, err := client.GetUserUploadsJSON(username)
 	if err != nil {
-		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		OnWorkflowFail(err, username)
 		return
 	}
 	fmt.Printf("%s", uploads)

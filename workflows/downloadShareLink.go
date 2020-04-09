@@ -1,10 +1,10 @@
 package workflows
 
 import (
-	client "../client"
-	res "../resources"
-	log "../utils/log"
 	"regexp"
+
+	client "../client"
+	log "../utils/log"
 )
 
 // CanUseDownloadShareLink - Check's if DownloadShareLink can be used
@@ -19,7 +19,7 @@ func DownloadShareLink(url string) {
 
 	finalURL, err := client.GetRedirectUrl(url)
 	if err != nil {
-		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		OnWorkflowFail(err, url)
 		return
 	}
 

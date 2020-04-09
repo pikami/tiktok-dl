@@ -6,7 +6,6 @@ import (
 
 	client "../client"
 	config "../models/config"
-	res "../resources"
 	utils "../utils"
 	fileio "../utils/fileio"
 	log "../utils/log"
@@ -22,7 +21,7 @@ func CanUseDownloadHashtag(url string) bool {
 func DownloadHashtag(url string) {
 	uploads, err := client.GetHashtagUploads(url)
 	if err != nil {
-		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		OnWorkflowFail(err, url)
 		return
 	}
 
@@ -45,7 +44,7 @@ func DownloadHashtag(url string) {
 func GetHashtagJSON(url string) {
 	uploads, err := client.GetHashtagUploadsJSON(url)
 	if err != nil {
-		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		OnWorkflowFail(err, url)
 		return
 	}
 	fmt.Printf("%s", uploads)

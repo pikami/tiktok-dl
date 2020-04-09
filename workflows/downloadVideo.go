@@ -7,7 +7,6 @@ import (
 	client "../client"
 	models "../models"
 	config "../models/config"
-	res "../resources"
 	utils "../utils"
 	fileio "../utils/fileio"
 	log "../utils/log"
@@ -24,7 +23,7 @@ func DownloadSingleVideo(url string) {
 	username := utils.GetUsernameFromString(url)
 	upload, err := client.GetVideoDetails(url)
 	if err != nil {
-		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		OnWorkflowFail(err, url)
 		return
 	}
 

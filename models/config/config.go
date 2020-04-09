@@ -12,6 +12,7 @@ var Config struct {
 	OutputPath      string
 	BatchFilePath   string
 	ArchiveFilePath string
+	FailLogFilePath string
 	Debug           bool
 	MetaData        bool
 	Quiet           bool
@@ -25,6 +26,7 @@ func GetConfig() {
 	outputPath := flag.String("output", "./downloads", "Output path")
 	batchFilePath := flag.String("batch-file", "", "File containing URLs/Usernames to download, one value per line. Lines starting with '#', are considered as comments and ignored.")
 	archive := flag.String("archive", "", "Download only videos not listed in the archive file. Record the IDs of all downloaded videos in it.")
+	failLogPath := flag.String("fail-log", "", "Write failed items to log file")
 	debug := flag.Bool("debug", false, "Enables debug mode")
 	metadata := flag.Bool("metadata", false, "Write video metadata to a .json file")
 	quiet := flag.Bool("quiet", false, "Supress output")
@@ -48,6 +50,7 @@ func GetConfig() {
 	Config.OutputPath = *outputPath
 	Config.BatchFilePath = *batchFilePath
 	Config.ArchiveFilePath = *archive
+	Config.FailLogFilePath = *failLogPath
 	Config.Debug = *debug
 	Config.MetaData = *metadata
 	Config.Quiet = *quiet

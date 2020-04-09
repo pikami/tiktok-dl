@@ -6,7 +6,6 @@ import (
 
 	client "../client"
 	config "../models/config"
-	res "../resources"
 	utils "../utils"
 	fileio "../utils/fileio"
 	log "../utils/log"
@@ -22,7 +21,7 @@ func CanUseDownloadMusic(url string) bool {
 func DownloadMusic(url string) {
 	uploads, err := client.GetMusicUploads(url)
 	if err != nil {
-		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		OnWorkflowFail(err, url)
 		return
 	}
 
@@ -44,7 +43,7 @@ func DownloadMusic(url string) {
 func GetMusicJSON(url string) {
 	uploads, err := client.GetMusicUploadsJSON(url)
 	if err != nil {
-		log.LogErr(res.ErrorCouldNotGetUserUploads, err.Error())
+		OnWorkflowFail(err, url)
 		return
 	}
 	fmt.Printf("%s", uploads)
