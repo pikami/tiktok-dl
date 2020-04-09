@@ -37,6 +37,9 @@ jobs:
     - name: Copy license
       run: cp LICENSE out
 
+    - name: Add execute permission
+      run: chmod +x out/tiktok-dl
+
     - name: Upload Unix Artifacts
       if: startsWith(matrix.os, 'ubuntu-')
       uses: actions/upload-artifact@v1
