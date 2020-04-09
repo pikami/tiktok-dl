@@ -2,16 +2,18 @@ package client
 
 import (
 	"context"
-	"github.com/chromedp/chromedp"
 	"io/ioutil"
 	"os"
 	"time"
+
+	"github.com/chromedp/chromedp"
 
 	config "../models/config"
 	log "../utils/log"
 )
 
-func GetRedirectUrl(url string) (string, error) {
+// GetRedirectURL - Returns URL that the given URL redirects to
+func GetRedirectURL(url string) (string, error) {
 	dir, err := ioutil.TempDir("", "chromedp-example")
 	if err != nil {
 		return "", err

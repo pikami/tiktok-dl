@@ -29,7 +29,7 @@ func GetConfig() {
 	failLogPath := flag.String("fail-log", "", "Write failed items to log file")
 	debug := flag.Bool("debug", false, "Enables debug mode")
 	metadata := flag.Bool("metadata", false, "Write video metadata to a .json file")
-	quiet := flag.Bool("quiet", false, "Supress output")
+	quiet := flag.Bool("quiet", false, "Suppress output")
 	jsonOnly := flag.Bool("json", false, "Just get JSON data from scraper (without video downloading)")
 	deadline := flag.Int("deadline", 1500, "Sets the timout for scraper logic in seconds (used as a workaround for 'context deadline exceeded' error)")
 	limit := flag.Int("limit", 0, "Sets the videos count limit (useful when there too many videos from the user or by hashtag)")

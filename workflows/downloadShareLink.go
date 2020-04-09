@@ -17,7 +17,7 @@ func CanUseDownloadShareLink(url string) bool {
 func DownloadShareLink(url string) {
 	log.Logf("Resolving share link: %s\n", url)
 
-	finalURL, err := client.GetRedirectUrl(url)
+	finalURL, err := client.GetRedirectURL(url)
 	if err != nil {
 		OnWorkflowFail(err, url)
 		return

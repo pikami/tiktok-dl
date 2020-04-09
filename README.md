@@ -1,7 +1,7 @@
 # TikTok-DL
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/pikami/tiktok-dl)](https://goreportcard.com/report/github.com/pikami/tiktok-dl)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/pikami/tiktok-dl/tiktok-dl_CI)
+[![tiktok-dl_CI](https://github.com/pikami/tiktok-dl/workflows/tiktok-dl_CI/badge.svg?branch=master)](https://github.com/pikami/tiktok-dl/actions)
 
 A simple tiktok video downloader written in go
 
@@ -30,7 +30,7 @@ In the 2nd form, download all targets listed in given `BATCH_FILE`.
 * `-limit` - Sets the max count of video that will be downloaded (default infinity)
 * `-metadata` - Write video metadata to a .json file
 * `-output some_directory` - Output path (default "./downloads")
-* `-quiet` - Supress output
+* `-quiet` - Suppress output
 
 ## Build instructions
 1. Clone this repository
