@@ -4,6 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
+
+	res "github.com/pikami/tiktok-dl/resources"
 )
 
 // Config - Runtime configuration
@@ -23,22 +26,21 @@ var Config struct {
 
 // GetConfig - Returns Config object
 func GetConfig() {
-	outputPath := flag.String("output", "./downloads", "Output path")
-	batchFilePath := flag.String("batch-file", "", "File containing URLs/Usernames to download, one value per line. Lines starting with '#', are considered as comments and ignored.")
-	archive := flag.String("archive", "", "Download only videos not listed in the archive file. Record the IDs of all downloaded videos in it.")
-	failLogPath := flag.String("fail-log", "", "Write failed items to log file")
-	debug := flag.Bool("debug", false, "Enables debug mode")
-	metadata := flag.Bool("metadata", false, "Write video metadata to a .json file")
-	quiet := flag.Bool("quiet", false, "Suppress output")
-	jsonOnly := flag.Bool("json", false, "Just get JSON data from scraper (without video downloading)")
-	deadline := flag.Int("deadline", 1500, "Sets the timout for scraper logic in seconds (used as a workaround for 'context deadline exceeded' error)")
-	limit := flag.Int("limit", 0, "Sets the videos count limit (useful when there too many videos from the user or by hashtag)")
+	outputPath := flag.String(res.OutputFlag, res.OutputDefault, res.OutputDescription)
+	batchFilePath := flag.String(res.BatchFlag, res.BatchDefault, res.BatchDescription)
+	archive := flag.String(res.ArchiveFlag, res.ArchiveDefault, res.ArchiveDescription)
+	failLogPath := flag.String(res.FailLogFlag, res.FailLogDefault, res.FailLogDescription)
+	debug := flag.Bool(res.DebugFlag, parseBool(res.DebugDefault), res.DebugDescription)
+	metadata := flag.Bool(res.MetadataFlag, parseBool(res.MetadataDefault), res.MetadataDescription)
+	quiet := flag.Bool(res.QuietFlag, parseBool(res.QuietDefault), res.QuietDescription)
+	jsonOnly := flag.Bool(res.JsonFlag, parseBool(res.JsonDefault), res.JsonDescription)
+	deadline := flag.Int(res.DeadlineFlag, parseInt(res.DeadlineDefault), res.DeadlineDescription)
+	limit := flag.Int(res.LimitFlag, parseInt(res.LimitDefault), res.LimitDescription)
 	flag.Parse()
 
 	args := flag.Args()
 	if len(args) < 1 && *batchFilePath == "" {
-		fmt.Println("Usage: tiktok-dl [OPTIONS] TIKTOK_USERNAME|TIKTOK_URL")
-		fmt.Println("  or:  tiktok-dl [OPTIONS] -batch-file path/to/users.txt")
+		fmt.Println(res.UsageLine)
 		os.Exit(2)
 	}
 
@@ -60,4 +62,20 @@ func GetConfig() {
 	Config.JSONOnly = *jsonOnly
 	Config.Deadline = *deadline
 	Config.Limit = *limit
+}
+
+func parseBool(str string) bool {
+	val, err := strconv.ParseBool(str)
+	if err != nil {
+		panic(err)
+	}
+	return val
+}
+
+func parseInt(str string) int {
+	val, err := strconv.Atoi(str)
+	if err != nil {
+		panic(err)
+	}
+	return val
 }

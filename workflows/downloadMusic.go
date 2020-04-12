@@ -6,6 +6,7 @@ import (
 
 	client "github.com/pikami/tiktok-dl/client"
 	config "github.com/pikami/tiktok-dl/models/config"
+	res "github.com/pikami/tiktok-dl/resources"
 	utils "github.com/pikami/tiktok-dl/utils"
 	fileio "github.com/pikami/tiktok-dl/utils/fileio"
 	log "github.com/pikami/tiktok-dl/utils/log"
@@ -34,7 +35,7 @@ func DownloadMusic(url string) {
 
 		fileio.InitOutputDirectory(downloadDir)
 		downloadVideo(upload, downloadDir)
-		log.Logf("\r[%d/%d] Downloaded", index+1, uploadCount)
+		log.Logf(res.Downloaded, index+1, uploadCount)
 	}
 	log.Log()
 }

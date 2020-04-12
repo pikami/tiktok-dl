@@ -3,6 +3,7 @@ package utils
 import (
 	models "github.com/pikami/tiktok-dl/models"
 	config "github.com/pikami/tiktok-dl/models/config"
+	res "github.com/pikami/tiktok-dl/resources"
 	fileio "github.com/pikami/tiktok-dl/utils/fileio"
 	log "github.com/pikami/tiktok-dl/utils/log"
 )
@@ -36,7 +37,7 @@ func RemoveArchivedItems(uploads []models.Upload) []models.Upload {
 
 	removedCount := lenBeforeRemoval - len(uploads)
 	if removedCount > 0 {
-		log.Logf("%d items, found in archive. Skipping...\n", removedCount)
+		log.Logf(res.ItemsFoundInArchive, removedCount)
 	}
 
 	return uploads

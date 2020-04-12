@@ -1,14 +1,15 @@
 {
     "name": "tiktok-dl",
-    "version": "0.0.1",
+    "version": "2.0.0",
     "scripts": {
         "install-dependencies": "go get -v -t -d ./...",
         "test:coverage": "go test -short -coverprofile=cov.out ./models ./utils",
         "test": "go test -v ./models && go test -v ./utils",
-        "clean": "rm -rf out",
-        "build:scraper": "node node_modules/terser/bin/terser -c -m -- scraper.js > out/scraper.js",
+        "clean": "rm -rf out && rm -f scraper.min.js",
+        "build:scraper": "node node_modules/terser/bin/terser -c -m -- scraper.js > scraper.min.js",
+        "build:res": "cd generator && go run . && cd ..",
         "build:app": "go build -o out/tiktok-dl -v .",
-        "build:dist": "mkdir out && npm run build:app && npm run build:scraper",
+        "build:dist": "npm run clean && mkdir out && npm run build:scraper && npm run build:res && npm run build:app",
         "build": "go build -v .",
         "sonar": "sonar-scanner -Dsonar.login=${SONAR_LOGIN} -Dproject.settings=.sonar/sonar-project.properties"
     },

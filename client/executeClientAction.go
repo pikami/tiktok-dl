@@ -11,6 +11,7 @@ import (
 	"github.com/chromedp/chromedp"
 
 	config "github.com/pikami/tiktok-dl/models/config"
+	res "github.com/pikami/tiktok-dl/resources"
 	utils "github.com/pikami/tiktok-dl/utils"
 	log "github.com/pikami/tiktok-dl/utils/log"
 )
@@ -54,7 +55,7 @@ func runScrapeQuiet(ctx context.Context, jsAction string, url string) (string, e
 		// Navigate to user's page
 		chromedp.Navigate(url),
 		// Execute url grabber script
-		chromedp.EvaluateAsDevTools(utils.ReadFileAsString("scraper.js"), &jsOutput),
+		chromedp.EvaluateAsDevTools(utils.GetScraper(), &jsOutput),
 		chromedp.EvaluateAsDevTools(jsAction, &jsOutput),
 		// Wait until custom js finishes
 		chromedp.WaitVisible(`video_urls`),
@@ -73,7 +74,7 @@ func runScrapeWithInfo(ctx context.Context, jsAction string, url string) (string
 		// Navigate to user's page
 		chromedp.Navigate(url),
 		// Execute url grabber script
-		chromedp.EvaluateAsDevTools(utils.ReadFileAsString("scraper.js"), &jsOutput),
+		chromedp.EvaluateAsDevTools(utils.GetScraper(), &jsOutput),
 		chromedp.EvaluateAsDevTools(jsAction, &jsOutput),
 	); err != nil {
 		return "", err
@@ -85,9 +86,9 @@ func runScrapeWithInfo(ctx context.Context, jsAction string, url string) (string
 		}
 
 		if jsOutput != "0" {
-			log.Logf("\rPreloading... %s items have been found.", jsOutput)
+			log.Logf(res.PreloadingItemsFound, jsOutput)
 		} else {
-			log.Logf("\rPreloading...")
+			log.Logf(res.Preloading)
 		}
 
 		if err := chromedp.Run(ctx, chromedp.EvaluateAsDevTools("currentState.finished.toString()", &jsOutput)); err != nil {
@@ -101,7 +102,7 @@ func runScrapeWithInfo(ctx context.Context, jsAction string, url string) (string
 		time.Sleep(50 * time.Millisecond)
 	}
 
-	log.Log("\nRetrieving items...")
+	log.Log(res.Retrieving)
 	if err := chromedp.Run(ctx,
 		// Wait until custom js finishes
 		chromedp.WaitVisible(`video_urls`),

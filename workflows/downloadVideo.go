@@ -7,6 +7,7 @@ import (
 	client "github.com/pikami/tiktok-dl/client"
 	models "github.com/pikami/tiktok-dl/models"
 	config "github.com/pikami/tiktok-dl/models/config"
+	res "github.com/pikami/tiktok-dl/resources"
 	utils "github.com/pikami/tiktok-dl/utils"
 	fileio "github.com/pikami/tiktok-dl/utils/fileio"
 	log "github.com/pikami/tiktok-dl/utils/log"
@@ -34,7 +35,7 @@ func DownloadSingleVideo(url string) {
 
 	fileio.InitOutputDirectory(downloadDir)
 	downloadVideo(upload, downloadDir)
-	log.Log("[1/1] Downloaded\n")
+	log.Logf(res.Downloaded, 1, 1)
 }
 
 // DownloadVideo - Downloads one video
