@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	config "../../models/config"
+	config "github.com/pikami/tiktok-dl/models/config"
 )
 
 // Log - Write to std out

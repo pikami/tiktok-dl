@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	testUtil "../unitTestUtil"
-	fileio "../utils/fileio"
+	testUtil "github.com/pikami/tiktok-dl/unitTestUtil"
+	fileio "github.com/pikami/tiktok-dl/utils/fileio"
 )
 
 func TestParseUploads(t *testing.T) {

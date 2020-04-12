@@ -1,10 +1,10 @@
 package workflows
 
 import (
-	config "../models/config"
-	res "../resources"
-	utils "../utils"
-	log "../utils/log"
+	config "github.com/pikami/tiktok-dl/models/config"
+	res "github.com/pikami/tiktok-dl/resources"
+	utils "github.com/pikami/tiktok-dl/utils"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
 // StartWorkflowByParameter - Start needed workflow by given parameter

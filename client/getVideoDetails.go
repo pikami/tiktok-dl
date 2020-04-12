@@ -1,7 +1,7 @@
 package client
 
 import (
-	models "../models"
+	models "github.com/pikami/tiktok-dl/models"
 )
 
 // GetVideoDetails - returns details of video

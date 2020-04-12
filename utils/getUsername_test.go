@@ -1,9 +1,10 @@
 package utils
 
 import (
-	config "../models/config"
-	testUtil "../unitTestUtil"
 	"testing"
+
+	config "github.com/pikami/tiktok-dl/models/config"
+	testUtil "github.com/pikami/tiktok-dl/unitTestUtil"
 )
 
 func TestGetUsername(t *testing.T) {

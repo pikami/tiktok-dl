@@ -3,8 +3,8 @@ package client
 import (
 	"fmt"
 
-	models "../models"
-	config "../models/config"
+	models "github.com/pikami/tiktok-dl/models"
+	config "github.com/pikami/tiktok-dl/models/config"
 )
 
 // GetMusicUploads - Get all uploads by given music

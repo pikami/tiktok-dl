@@ -10,9 +10,9 @@ import (
 
 	"github.com/chromedp/chromedp"
 
-	config "../models/config"
-	utils "../utils"
-	log "../utils/log"
+	config "github.com/pikami/tiktok-dl/models/config"
+	utils "github.com/pikami/tiktok-dl/utils"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
 // GetMusicUploads - Get all uploads by given music

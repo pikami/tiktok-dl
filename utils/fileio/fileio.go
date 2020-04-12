@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	checkErr "../checkErr"
+	checkErr "github.com/pikami/tiktok-dl/utils/checkErr"
 )
 
 type delegateString func(string)

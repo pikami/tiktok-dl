@@ -1,8 +1,8 @@
 package main
 
 import (
-	config "./models/config"
-	workflows "./workflows"
+	config "github.com/pikami/tiktok-dl/models/config"
+	workflows "github.com/pikami/tiktok-dl/workflows"
 )
 
 func main() {

@@ -1,13 +1,13 @@
 package workflows
 
 import (
-	config "../models/config"
-	res "../resources"
-	fileio "../utils/fileio"
-	log "../utils/log"
+	config "github.com/pikami/tiktok-dl/models/config"
+	res "github.com/pikami/tiktok-dl/resources"
+	fileio "github.com/pikami/tiktok-dl/utils/fileio"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
-// OnWorkflowFail - Funtion called when workflow fails
+// OnWorkflowFail - Function called when workflow fails
 func OnWorkflowFail(err error, workItem string) {
 	failLogFilePath := config.Config.FailLogFilePath
 

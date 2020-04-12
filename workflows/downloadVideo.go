@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"regexp"
 
-	client "../client"
-	models "../models"
-	config "../models/config"
-	utils "../utils"
-	fileio "../utils/fileio"
-	log "../utils/log"
+	client "github.com/pikami/tiktok-dl/client"
+	models "github.com/pikami/tiktok-dl/models"
+	config "github.com/pikami/tiktok-dl/models/config"
+	utils "github.com/pikami/tiktok-dl/utils"
+	fileio "github.com/pikami/tiktok-dl/utils/fileio"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
 // CanUseDownloadSingleVideo - Check's if DownloadSingleVideo can be used for parameter

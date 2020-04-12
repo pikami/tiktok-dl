@@ -8,8 +8,8 @@ import (
 
 	"github.com/chromedp/chromedp"
 
-	config "../models/config"
-	log "../utils/log"
+	config "github.com/pikami/tiktok-dl/models/config"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
 // GetRedirectURL - Returns URL that the given URL redirects to

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"regexp"
 
-	client "../client"
-	config "../models/config"
-	utils "../utils"
-	fileio "../utils/fileio"
-	log "../utils/log"
+	client "github.com/pikami/tiktok-dl/client"
+	config "github.com/pikami/tiktok-dl/models/config"
+	utils "github.com/pikami/tiktok-dl/utils"
+	fileio "github.com/pikami/tiktok-dl/utils/fileio"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
 // CanUseDownloadMusic - Check's if DownloadMusic can be used for parameter

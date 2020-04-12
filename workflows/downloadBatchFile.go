@@ -1,9 +1,9 @@
 package workflows
 
 import (
-	res "../resources"
-	fileio "../utils/fileio"
-	log "../utils/log"
+	res "github.com/pikami/tiktok-dl/resources"
+	fileio "github.com/pikami/tiktok-dl/utils/fileio"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
 // CanUseDownloadBatchFile - Check's if DownloadBatchFile can be used

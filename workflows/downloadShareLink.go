@@ -3,8 +3,8 @@ package workflows
 import (
 	"regexp"
 
-	client "../client"
-	log "../utils/log"
+	client "github.com/pikami/tiktok-dl/client"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
 // CanUseDownloadShareLink - Check's if DownloadShareLink can be used

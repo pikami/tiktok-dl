@@ -1,9 +1,10 @@
 package utils
 
 import (
-	res "../resources"
 	"fmt"
 	"strings"
+
+	res "github.com/pikami/tiktok-dl/resources"
 )
 
 // GetHashtagFromURL - Get's tag name from passed url

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	checkErr "./checkErr"
+	checkErr "github.com/pikami/tiktok-dl/utils/checkErr"
 )
 
 // DownloadFile - Downloads content from `url` and stores it in `outputPath`

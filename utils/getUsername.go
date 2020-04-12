@@ -1,11 +1,12 @@
 package utils
 
 import (
-	config "../models/config"
-	res "../resources"
 	"fmt"
 	"regexp"
 	"strings"
+
+	config "github.com/pikami/tiktok-dl/models/config"
+	res "github.com/pikami/tiktok-dl/resources"
 )
 
 // GetUsername - Get's username from passed URL param

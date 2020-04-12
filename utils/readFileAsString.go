@@ -3,7 +3,7 @@ package utils
 import (
 	"io/ioutil"
 
-	checkErr "./checkErr"
+	checkErr "github.com/pikami/tiktok-dl/utils/checkErr"
 )
 
 // ReadFileAsString - Returns contents of given file

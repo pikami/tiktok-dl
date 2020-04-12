@@ -5,9 +5,9 @@ import (
 	"os"
 	"strings"
 
-	res "../resources"
-	checkErr "../utils/checkErr"
-	log "../utils/log"
+	res "github.com/pikami/tiktok-dl/resources"
+	checkErr "github.com/pikami/tiktok-dl/utils/checkErr"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
 // Upload - Upload object

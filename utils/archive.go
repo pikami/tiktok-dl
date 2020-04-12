@@ -1,10 +1,10 @@
 package utils
 
 import (
-	models "../models"
-	config "../models/config"
-	fileio "./fileio"
-	log "./log"
+	models "github.com/pikami/tiktok-dl/models"
+	config "github.com/pikami/tiktok-dl/models/config"
+	fileio "github.com/pikami/tiktok-dl/utils/fileio"
+	log "github.com/pikami/tiktok-dl/utils/log"
 )
 
 // IsItemInArchive - Checks if the item is already archived
