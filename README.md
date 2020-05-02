@@ -5,6 +5,8 @@
 
 A simple tiktok video downloader written in go
 
+![#f03c15](This tool is not working currenly, I will revive it in the future when I have some free time)
+
 ## Basic usage examples
 Download the executable from `https://github.com/pikami/tiktok-dl/releases`\
 You can download all videos from user by running `./tiktok-dl TIKTOK_USERNAME`\
