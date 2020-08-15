@@ -1,17 +1,15 @@
 optStrings = {
     selectors: {
-        feedLoading: 'div.tiktok-loading.feed-loading',
-        modalArrowRight: 'div.video-card-modal > div > img.arrow-right',
-        modalClose: '.video-card-modal > div > div.close',
-        modalPlayer: 'div > div > main > div.video-card-modal > div > div.video-card-big > div.video-card-container > div > div > video',
-        modalShareInput: '.copy-link-container > input',
-        modalCaption: 'div.video-card-big > div.content-container > div.video-meta-info > h1',
-        modalSoundLink: 'div.content-container > div.video-meta-info > h2.music-info > a',
+        feedLoading: '.tiktok-ui-loading-container',
+        modalArrowRight: 'div > div.video-card-container > img.arrow-right',
+        modalClose: 'div > div.video-card-container > img.control-icon.close',
+        modalPlayer: 'div.video-card-container > div.video-card-browse > video',
+        modalCaption: 'div.content-container > div.video-infos-container > h1',
+        modalSoundLink: 'div.content-container > div.video-infos-container > h2.music-info > a',
         modalUploader: '.user-username',
-        videoPlayer: 'div.video-card-container > div > div > video',
-        videoShareInput: 'div.content-container.border > div.copy-link-container > input',
-        videoCaption: 'div.content-container.border > div.video-meta-info > h1',
-        videoSoundLink: 'div.content-container.border > div.video-meta-info > h2.music-info > a',
+        videoPlayer: 'div.video-card-container > div > video',
+        videoCaption: 'div.content-container > div.video-infos-container > h1',
+        videoSoundLink: 'div.content-container > div.video-infos-container > h2 > a',
         videoUploader: '.user-username',
     },
     classes: {
@@ -39,9 +37,9 @@ currentState = {
     limit: 0
 };
 
-checkForErrors = function() {
+checkForErrors = function () {
     var titles = document.getElementsByClassName(optStrings.classes.titleMessage);
-    debugger;
+    //debugger;
     if (titles && titles.length) {
         var error = Array.from(titles).find(x => optStrings.tiktokMessages.includes(x.textContent)).textContent;
         if (error) {
@@ -52,21 +50,21 @@ checkForErrors = function() {
     return false;
 };
 
-createVidUrlElement = function(outputObj) {
+createVidUrlElement = function (outputObj) {
     var urlSetElement = document.createElement(optStrings.tags.resultTag);
     urlSetElement.innerText = JSON.stringify(outputObj);
     document.getElementsByTagName(optStrings.tags.resultParentTag)[0].appendChild(urlSetElement);
     currentState.finished = true;
 };
 
-buldVidUrlArray = function(finishCallback) {
+buldVidUrlArray = function (finishCallback) {
     var feedItem = document.getElementsByClassName(optStrings.classes.feedVideoItem)[0];
     feedItem.click();
 
     var videoArray = [];
     var intervalID = window.setInterval(x => {
         videoArray.push(getCurrentModalVideo());
-        if(currentState.limit > 0) {
+        if (currentState.limit > 0) {
             if (videoArray.length >= currentState.limit) {
                 window.clearInterval(intervalID);
                 document.querySelector(optStrings.selectors.modalClose).click();
@@ -74,7 +72,7 @@ buldVidUrlArray = function(finishCallback) {
             }
         }
         var arrowRight = document.querySelectorAll(optStrings.selectors.modalArrowRight)[0];
-        if (arrowRight.classList.contains(optStrings.classes.modalCloseDisabled)) {
+        if (!arrowRight || arrowRight.classList.contains(optStrings.classes.modalCloseDisabled)) {
             window.clearInterval(intervalID);
             document.querySelector(optStrings.selectors.modalClose).click();
             finishCallback(videoArray);
@@ -84,15 +82,15 @@ buldVidUrlArray = function(finishCallback) {
     }, 20);
 };
 
-getCurrentModalVideo = function() {
+getCurrentModalVideo = function () {
     var modalPlayer = document.querySelector(optStrings.selectors.modalPlayer);
     var vidUrl = modalPlayer.getAttribute(optStrings.attributes.src);
-    var shareLink = document.querySelector(optStrings.selectors.modalShareInput).value;
+    var shareLink = window.location.href;
     var caption = document.querySelector(optStrings.selectors.modalCaption).textContent;
     var soundLink = document.querySelector(optStrings.selectors.modalSoundLink);
     var uploader = document.querySelector(optStrings.selectors.modalUploader).textContent;
-    var soundHref = soundLink.getAttribute("href");
-    var soundText = soundLink.text;
+    var soundHref = soundLink ? soundLink.getAttribute("href") : '';
+    var soundText = soundLink ? soundLink.text : '';
 
     return {
         url: vidUrl,
@@ -106,16 +104,17 @@ getCurrentModalVideo = function() {
     };
 };
 
-getCurrentVideo = function() {
-    if(checkForErrors()) return;
+getCurrentVideo = function () {
+    //debugger;
+    if (checkForErrors()) return;
     var player = document.querySelector(optStrings.selectors.videoPlayer);
     var vidUrl = player.getAttribute(optStrings.attributes.src);
-    var shareLink = document.querySelector(optStrings.selectors.videoShareInput).value;
+    var shareLink = window.location.href;
     var caption = document.querySelector(optStrings.selectors.videoCaption).textContent;
     var soundLink = document.querySelector(optStrings.selectors.videoSoundLink);
     var uploader = document.querySelector(optStrings.selectors.videoUploader).textContent;
-    var soundHref = soundLink.getAttribute("href");
-    var soundText = soundLink.text;
+    var soundHref = soundLink ? soundLink.getAttribute("href") : '';
+    var soundText = soundLink ? soundLink.text : '';
 
     return {
         url: vidUrl,
@@ -131,19 +130,21 @@ getCurrentVideo = function() {
 
 scrollBottom = () => window.scrollTo(0, document.body.scrollHeight);
 
-scrollWhileNew = function(finishCallback) {
-    var state = { count: 0 };
+scrollWhileNew = function (finishCallback) {
+    var state = {
+        count: 0
+    };
     var intervalID = window.setInterval(x => {
         scrollBottom();
         var oldCount = state.count;
         state.count = document.getElementsByClassName(optStrings.classes.feedVideoItem).length;
-        if(currentState.limit > 0) {
+        if (currentState.limit > 0) {
             if (currentState.preloadCount >= currentState.limit || state.count >= currentState.limit) {
                 finishCallback(createVidUrlElement);
                 window.clearInterval(intervalID);
             }
         }
-        if(checkForErrors()) {
+        if (checkForErrors()) {
             window.clearInterval(intervalID);
             return;
         } else if (state.count == 0) {
@@ -152,7 +153,7 @@ scrollWhileNew = function(finishCallback) {
         if (oldCount !== state.count) {
             currentState.preloadCount = state.count;
         } else {
-            if (document.querySelector(optStrings.selectors.feedLoading)) {
+            if (isLoading()) {
                 return;
             }
             window.clearInterval(intervalID);
@@ -161,13 +162,18 @@ scrollWhileNew = function(finishCallback) {
     }, 1000);
 };
 
-bootstrapIteratingVideos = function(limit) {
+isLoading = function () {
+    var loadingElement = document.querySelector(optStrings.selectors.feedLoading);
+    return loadingElement && loadingElement.getClientRects().length != 0;
+}
+
+bootstrapIteratingVideos = function (limit) {
     currentState.limit = limit;
     scrollWhileNew(buldVidUrlArray);
     return 'bootstrapIteratingVideos';
 };
 
-bootstrapGetCurrentVideo = function() {
+bootstrapGetCurrentVideo = function () {
     var video = getCurrentVideo();
     createVidUrlElement(video);
     return 'bootstrapGetCurrentVideo';
