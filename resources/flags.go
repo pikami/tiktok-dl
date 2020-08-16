@@ -3,92 +3,101 @@
 // Check `/generator/resources.go` to change generated content
 package resources
 
-//BatchDescription -
-var BatchDescription = "File containing URLs/Usernames to download, one value per line. Lines starting with '#', are considered as comments and ignored."
-
-//LimitDefault -
-var LimitDefault = "0"
-
-//DebugDescription -
-var DebugDescription = "Enables debug mode"
+//FailLogDefault -
+var FailLogDefault = ""
 
 //QuietDescription -
 var QuietDescription = "Suppress output"
 
-//MetadataDefault -
-var MetadataDefault = "false"
-
-//LimitDescription -
-var LimitDescription = "Sets the videos count limit (useful when there too many videos from the user or by hashtag)"
-
-//OutputDescription -
-var OutputDescription = "Output path"
-
-//BatchDefault -
-var BatchDefault = ""
-
-//FailLogDefault -
-var FailLogDefault = ""
-
-//MetadataFlag -
-var MetadataFlag = "metadata"
-
-//ArchiveFlag -
-var ArchiveFlag = "archive"
-
-//MetadataDescription -
-var MetadataDescription = "Write video metadata to a .json file"
-
-//QuietDefault -
-var QuietDefault = "false"
-
-//DeadlineDefault -
-var DeadlineDefault = "1500"
-
-//JsonFlag -
-var JsonFlag = "json"
-
-//JsonDefault -
-var JsonDefault = "false"
-
-//DeadlineDescription -
-var DeadlineDescription = "Sets the timout for scraper logic in seconds (used as a workaround for 'context deadline exceeded' error)"
-
-//OutputFlag -
-var OutputFlag = "output"
-
-//OutputDefault -
-var OutputDefault = "./downloads"
-
-//FailLogFlag -
-var FailLogFlag = "fail-log"
-
-//DebugDefault -
-var DebugDefault = "false"
-
-//ArchiveDefault -
-var ArchiveDefault = ""
-
-//FailLogDescription -
-var FailLogDescription = "Write failed items to log file"
-
-//BatchFlag -
-var BatchFlag = "batch-file"
-
-//QuietFlag -
-var QuietFlag = "quiet"
-
-//DeadlineFlag -
-var DeadlineFlag = "deadline"
-
-//LimitFlag -
-var LimitFlag = "limit"
+//ScrapedDataDefault -
+var ScrapedDataDefault = ""
 
 //ArchiveDescription -
 var ArchiveDescription = "Download only videos not listed in the archive file. Record the IDs of all downloaded videos in it."
 
+//FailLogFlag -
+var FailLogFlag = "fail-log"
+
+//QuietDefault -
+var QuietDefault = "false"
+
+//JsonFlag -
+var JsonFlag = "json"
+
+//ScrapedDataFlag -
+var ScrapedDataFlag = "scraped-data"
+
 //DebugFlag -
 var DebugFlag = "debug"
 
+//MetadataDefault -
+var MetadataDefault = "false"
+
+//DeadlineFlag -
+var DeadlineFlag = "deadline"
+
+//OutputFlag -
+var OutputFlag = "output"
+
+//BatchFlag -
+var BatchFlag = "batch-file"
+
+//ArchiveFlag -
+var ArchiveFlag = "archive"
+
+//ArchiveDefault -
+var ArchiveDefault = ""
+
+//JsonDefault -
+var JsonDefault = "false"
+
 //JsonDescription -
 var JsonDescription = "Just get JSON data from scraper (without video downloading)"
+
+//DeadlineDescription -
+var DeadlineDescription = "Sets the timout for scraper logic in seconds (used as a workaround for 'context deadline exceeded' error)"
+
+//OutputDefault -
+var OutputDefault = "./downloads"
+
+//OutputDescription -
+var OutputDescription = "Output path"
+
+//BatchDescription -
+var BatchDescription = "File containing URLs/Usernames to download, one value per line. Lines starting with '#', are considered as comments and ignored."
+
+//LimitFlag -
+var LimitFlag = "limit"
+
+//LimitDescription -
+var LimitDescription = "Sets the videos count limit (useful when there too many videos from the user or by hashtag)"
+
+//ScrapedDataDescription -
+var ScrapedDataDescription = "Download videos from scrape file (json format)"
+
+//DebugDescription -
+var DebugDescription = "Enables debug mode"
+
+//MetadataFlag -
+var MetadataFlag = "metadata"
+
+//BatchDefault -
+var BatchDefault = ""
+
+//MetadataDescription -
+var MetadataDescription = "Write video metadata to a .json file"
+
+//LimitDefault -
+var LimitDefault = "0"
+
+//DeadlineDefault -
+var DeadlineDefault = "1500"
+
+//FailLogDescription -
+var FailLogDescription = "Write failed items to log file"
+
+//DebugDefault -
+var DebugDefault = "false"
+
+//QuietFlag -
+var QuietFlag = "quiet"

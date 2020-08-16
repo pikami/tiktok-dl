@@ -11,23 +11,25 @@ import (
 
 // Config - Runtime configuration
 var Config struct {
-	URL             string
-	OutputPath      string
-	BatchFilePath   string
-	ArchiveFilePath string
-	FailLogFilePath string
-	Debug           bool
-	MetaData        bool
-	Quiet           bool
-	JSONOnly        bool
-	Deadline        int
-	Limit           int
+	URL                 string
+	OutputPath          string
+	BatchFilePath       string
+	ScrapedDataFilePath string
+	ArchiveFilePath     string
+	FailLogFilePath     string
+	Debug               bool
+	MetaData            bool
+	Quiet               bool
+	JSONOnly            bool
+	Deadline            int
+	Limit               int
 }
 
 // GetConfig - Returns Config object
 func GetConfig() {
 	outputPath := flag.String(res.OutputFlag, res.OutputDefault, res.OutputDescription)
 	batchFilePath := flag.String(res.BatchFlag, res.BatchDefault, res.BatchDescription)
+	scrapedDataFilePath := flag.String(res.ScrapedDataFlag, res.ScrapedDataDefault, res.ScrapedDataDescription)
 	archive := flag.String(res.ArchiveFlag, res.ArchiveDefault, res.ArchiveDescription)
 	failLogPath := flag.String(res.FailLogFlag, res.FailLogDefault, res.FailLogDescription)
 	debug := flag.Bool(res.DebugFlag, parseBool(res.DebugDefault), res.DebugDescription)
@@ -39,7 +41,7 @@ func GetConfig() {
 	flag.Parse()
 
 	args := flag.Args()
-	if len(args) < 1 && *batchFilePath == "" {
+	if len(args) < 1 && *batchFilePath == "" && *scrapedDataFilePath == "" {
 		fmt.Println(res.UsageLine)
 		os.Exit(2)
 	}
@@ -51,6 +53,7 @@ func GetConfig() {
 	}
 	Config.OutputPath = *outputPath
 	Config.BatchFilePath = *batchFilePath
+	Config.ScrapedDataFilePath = *scrapedDataFilePath
 	Config.ArchiveFilePath = *archive
 	Config.FailLogFilePath = *failLogPath
 	Config.Debug = *debug

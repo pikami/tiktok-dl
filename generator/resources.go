@@ -34,7 +34,8 @@ var (
 				"ItemsFoundInArchive":  "%d items, found in archive. Skipping...\n",
 				"Downloaded":           "\r[%d/%d] Downloaded",
 				"UsageLine": "Usage: tiktok-dl [OPTIONS] TIKTOK_USERNAME|TIKTOK_URL\n" +
-					"  or:  tiktok-dl [OPTIONS] -batch-file path/to/users.txt",
+					"  or:  tiktok-dl [OPTIONS] -batch-file path/to/users.txt\n" +
+					"  or:  tiktok-dl [OPTIONS] -scraped-data path/to/data.json",
 			},
 		},
 		resource{
@@ -49,6 +50,10 @@ var (
 				"BatchFlag":        "batch-file",
 				"BatchDefault":     "",
 				"BatchDescription": "File containing URLs/Usernames to download, one value per line. Lines starting with '#', are considered as comments and ignored.",
+				// ScrapedData
+				"ScrapedDataFlag":        "scraped-data",
+				"ScrapedDataDefault":     "",
+				"ScrapedDataDescription": "Download videos from scrape file (json format)",
 				// Archive
 				"ArchiveFlag":        "archive",
 				"ArchiveDefault":     "",

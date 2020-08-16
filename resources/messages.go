@@ -19,4 +19,4 @@ var ItemsFoundInArchive = "%d items, found in archive. Skipping...\n"
 var Downloaded = "\r[%d/%d] Downloaded"
 
 //UsageLine -
-var UsageLine = "Usage: tiktok-dl [OPTIONS] TIKTOK_USERNAME|TIKTOK_URL\n  or:  tiktok-dl [OPTIONS] -batch-file path/to/users.txt"
+var UsageLine = "Usage: tiktok-dl [OPTIONS] TIKTOK_USERNAME|TIKTOK_URL\n  or:  tiktok-dl [OPTIONS] -batch-file path/to/users.txt\n  or:  tiktok-dl [OPTIONS] -scraped-data path/to/data.json"
